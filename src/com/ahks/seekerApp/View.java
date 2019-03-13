@@ -2,7 +2,7 @@ package com.ahks.seekerApp;
 
 import javax.swing.*;
 
-public class View extends JPanel{
+public class View{
     private JPanel panelMain;
     private JLabel label1;
     private JTable table;
@@ -22,8 +22,6 @@ public class View extends JPanel{
     }
 
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-           new View();
-        });
+        SwingUtilities.invokeLater(() -> new View());
     }
 }
