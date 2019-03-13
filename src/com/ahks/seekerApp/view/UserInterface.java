@@ -9,7 +9,7 @@ public class UserInterface extends JPanel {
 
     private JFrame frame;
     private JLabel label;
-    private JTextPane textPaneR;
+    private JTextArea textAreaR;
     private JTextField searchField;
     private JButton addFileBtn;
     private JButton searchBtn;
@@ -17,6 +17,7 @@ public class UserInterface extends JPanel {
     private JMenu menu;
     private JScrollPane scrollPaneLD;
     private JScrollPane scrollPaneLU;
+    private JScrollPane scrollPaneR;
 
     int FRAME_WIDTH = 600;
     int FRAME_HEIGHT = 500;
@@ -40,15 +41,23 @@ public class UserInterface extends JPanel {
         return searchField;
     }
 
+    public JTextArea getTextAreaR() {
+        return textAreaR;
+    }
+
     public void initializeActionListener(ActionListener actionListener){
         addFileBtn.addActionListener(actionListener);
         searchBtn.addActionListener(actionListener);
     }
 
+    public JScrollPane getScrollPaneR() {
+        return scrollPaneR;
+    }
+
     private void initializeView() {
 
         this.frame = new JFrame();
-        this.textPaneR = new JTextPane();
+        this.textAreaR = new JTextArea();
         this.addFileBtn = new JButton("Add File");
         this.menuBar = new JMenuBar();
         this.menu = new JMenu("Seeker");
@@ -57,9 +66,10 @@ public class UserInterface extends JPanel {
         this.searchBtn = new JButton("Search");
         this.scrollPaneLD = new JScrollPane();
         this.scrollPaneLU = new JScrollPane();
+        this.scrollPaneR = new JScrollPane();
 
 
-        textPaneR.setBounds(230, 2*STANDARD_GAP, 340, 350);
+        scrollPaneR.setBounds(230, 2*STANDARD_GAP, 340, 350);
         scrollPaneLU.setBounds(STANDARD_GAP, 40, 170, 130);
         scrollPaneLD.setBounds(STANDARD_GAP, 210, 170, 195);
         searchField.setBounds(STANDARD_GAP, 180, BUTTON_WIDTH, BUTTON_HEIGHT);
@@ -71,7 +81,7 @@ public class UserInterface extends JPanel {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.getContentPane().setLayout(null);
 
-        frame.add(textPaneR);
+        frame.add(scrollPaneR);
         frame.add(scrollPaneLU);
         frame.add(scrollPaneLD);
         frame.add(addFileBtn);
@@ -82,7 +92,8 @@ public class UserInterface extends JPanel {
         setVisible(true);
         searchBtn.setEnabled(false);
         searchField.setEnabled(false);
-        textPaneR.requestFocus();
+        scrollPaneR.add(textAreaR);
+        textAreaR.requestFocus();
 
 
         frame.setVisible(true);
