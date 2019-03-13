@@ -1,4 +1,4 @@
-package com.ahks.seekerApp.model;
+package com.ahks.seekerApp.view;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;

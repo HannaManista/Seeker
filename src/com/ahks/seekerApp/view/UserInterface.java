@@ -5,7 +5,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class View extends JPanel implements ActionListener {
+public class UserInterface extends JPanel implements ActionListener {
 
     private JFrame frame;
     private JLabel label;
@@ -24,13 +24,8 @@ public class View extends JPanel implements ActionListener {
     int BUTTON_WIDTH = 100;
     int BUTTON_HEIGHT = 20;
 
-    public View() {
+    public UserInterface() {
         this.initializeView();
-    }
-    public static void main(String[] args) {
-        //SwingUtilities.invokeLater(() -> {
-        View view = new View();
-        //});
     }
 
     private void initializeView() {
