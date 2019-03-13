@@ -1,11 +1,11 @@
-package com.ahks.seekerApp.com.ahks.seekerApp.model;
+package com.ahks.seekerApp.model;
 
-public class File {
+public class TextFile {
     private String name;
     private String path;
     private int results;
 
-    public File(String name, String path) {
+    public TextFile(String name, String path) {
         this.name = name;
         this.path = path;
         this.results = 0;
