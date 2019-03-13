@@ -2,7 +2,7 @@ package com.ahks.seekerApp;
 
 import javax.swing.*;
 
-public class View{
+public class View extends JPanel{
     private JPanel panelMain;
     private JLabel label1;
     private JTable table;
