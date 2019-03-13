@@ -2,6 +2,7 @@ package com.ahks.seekerApp;
 
 import com.ahks.seekerApp.controller.SeekerController;
 import com.ahks.seekerApp.model.SeekerModel;
+import com.ahks.seekerApp.view.FileChooser;
 import com.ahks.seekerApp.view.UserInterface;
 
 import javax.swing.*;

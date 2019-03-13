@@ -5,12 +5,12 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class UserInterface extends JPanel implements ActionListener {
+public class UserInterface extends JPanel {
 
     private JFrame frame;
     private JLabel label;
-    private JTextPane textpaneR;
-    private JTextField searchfield;
+    private JTextPane textPaneR;
+    private JTextField searchField;
     private JButton addFileBtn;
     private JButton searchBtn;
     private JMenuBar menuBar;
@@ -28,24 +28,41 @@ public class UserInterface extends JPanel implements ActionListener {
         this.initializeView();
     }
 
+    public JButton getAddFileBtn() {
+        return addFileBtn;
+    }
+
+    public JButton getSearchBtn() {
+        return searchBtn;
+    }
+
+    public JTextField getSearchField() {
+        return searchField;
+    }
+
+    public void initializeActionListener(ActionListener actionListener){
+        addFileBtn.addActionListener(actionListener);
+        searchBtn.addActionListener(actionListener);
+    }
+
     private void initializeView() {
 
         this.frame = new JFrame();
-        this.textpaneR = new JTextPane();
+        this.textPaneR = new JTextPane();
         this.addFileBtn = new JButton("Add File");
         this.menuBar = new JMenuBar();
         this.menu = new JMenu("Seeker");
         this.label = new JLabel("Text");
-        this.searchfield = new JTextField("Search word");
+        this.searchField = new JTextField("Search word");
         this.searchBtn = new JButton("Search");
         this.scrollPaneLD = new JScrollPane();
         this.scrollPaneLU = new JScrollPane();
 
 
-        textpaneR.setBounds(230, 2*STANDARD_GAP, 340, 350);
+        textPaneR.setBounds(230, 2*STANDARD_GAP, 340, 350);
         scrollPaneLU.setBounds(STANDARD_GAP, 40, 170, 130);
         scrollPaneLD.setBounds(STANDARD_GAP, 210, 170, 195);
-        searchfield.setBounds(STANDARD_GAP, 180, BUTTON_WIDTH, BUTTON_HEIGHT);
+        searchField.setBounds(STANDARD_GAP, 180, BUTTON_WIDTH, BUTTON_HEIGHT);
         addFileBtn.setBounds(STANDARD_GAP*2, STANDARD_GAP/2, BUTTON_WIDTH, BUTTON_HEIGHT );
         searchBtn.setBounds(STANDARD_GAP+BUTTON_WIDTH,180,BUTTON_WIDTH/2, BUTTON_HEIGHT);
         label.setBounds(230, STANDARD_GAP, BUTTON_WIDTH, BUTTON_HEIGHT );
@@ -54,41 +71,23 @@ public class UserInterface extends JPanel implements ActionListener {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.getContentPane().setLayout(null);
 
-        frame.add(textpaneR);
+        frame.add(textPaneR);
         frame.add(scrollPaneLU);
         frame.add(scrollPaneLD);
         frame.add(addFileBtn);
         frame.add(searchBtn);
         frame.add(label);
-        frame.add(searchfield);
-
-        addFileBtn.addActionListener(this);
-        searchBtn.addActionListener(this);
+        frame.add(searchField);
 
         setVisible(true);
         searchBtn.setEnabled(false);
-        searchfield.setEnabled(false);
-        textpaneR.requestFocus();
+        searchField.setEnabled(false);
+        textPaneR.requestFocus();
 
 
         frame.setVisible(true);
         frame.setLayout(new BorderLayout());
     }
-
-    @Override
-    public void actionPerformed(ActionEvent event){
-        Object source = event.getSource();
-
-        if(source == addFileBtn){
-            searchBtn.setEnabled(true);
-            searchfield.setEnabled(true);
-        }
-
-        if(source == searchBtn){
-
-        }
-    }
-
 }
 
 

@@ -4,7 +4,7 @@ import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.io.File;
 
-class FileChooser extends JFrame {
+public class FileChooser extends JFrame {
 
     private JFileChooser chooser = new JFileChooser();
     private String[] directory = null;
