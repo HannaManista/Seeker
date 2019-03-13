@@ -4,6 +4,8 @@ import javax.swing.table.AbstractTableModel;
 
 public class TableModel extends AbstractTableModel {
 
+    private String[] columnNames = { "File name:", "Matched results:" };
+
     @Override
     public int getRowCount() {
         return 0;
