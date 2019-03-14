@@ -92,7 +92,7 @@ public class UserInterface extends JPanel {
         setVisible(true);
         searchBtn.setEnabled(false);
         searchField.setEnabled(false);
-        scrollPaneR.add(textAreaR);
+        scrollPaneR.getViewport().add(textAreaR);
         textAreaR.requestFocus();
 
 
