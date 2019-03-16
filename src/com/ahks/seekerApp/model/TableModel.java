@@ -1,23 +1,41 @@
 package com.ahks.seekerApp.model;
 
 import javax.swing.table.AbstractTableModel;
+import java.util.ArrayList;
 
 public class TableModel extends AbstractTableModel {
 
-    private String[] columnNames = { "File name:", "Matched results:" };
+    private ArrayList<TextFile> fileArray;
+    private String[] columnNames = {"fileName","filePath"};
 
-    @Override
-    public int getRowCount() {
-        return 0;
-    }
+   public TableModel() {
+       fileArray = new ArrayList<TextFile>();
+   }
 
-    @Override
-    public int getColumnCount() {
-        return 0;
-    }
+   public void addPath(String fileName, String filePath) {
+       fileArray.add(new TextFile(fileName, filePath));
+       fireTableDataChanged();
+   }
 
-    @Override
-    public Object getValueAt(int i, int i1) {
-        return null;
-    }
+   @Override
+   public int getRowCount() {
+       return fileArray.size();
+   }
+
+   @Override
+   public int getColumnCount() {
+       return 2;
+   }
+
+   @Override
+   public Object getValueAt(int row, int col) {
+       switch (col) {
+           case 0:
+               return fileArray.get(row).getName();
+               case 1:
+                   return fileArray.get(row).getPath();
+                   default:
+                       return null;
+       }
+   }
 }
