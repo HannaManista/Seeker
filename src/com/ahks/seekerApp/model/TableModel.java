@@ -32,10 +32,10 @@ public class TableModel extends AbstractTableModel {
        switch (col) {
            case 0:
                return fileArray.get(row).getName();
-               case 1:
-                   return fileArray.get(row).getPath();
-                   default:
-                       return null;
+           case 1:
+               return fileArray.get(row).getPath();
+           default:
+               return null;
        }
    }
 }

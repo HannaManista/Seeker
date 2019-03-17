@@ -1,5 +1,6 @@
 package com.ahks.seekerApp.view;
 
+import com.ahks.seekerApp.controller.SeekerController;
 import com.ahks.seekerApp.model.TableModel;
 
 import javax.swing.*;

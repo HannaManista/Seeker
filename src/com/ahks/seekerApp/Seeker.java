@@ -15,7 +15,6 @@ public class Seeker {
             UserInterface ui = new UserInterface();
             SeekerModel sm = new SeekerModel();
             TextFile tf = new TextFile();
-            //TableModel tm = new TableModel();
             SeekerController pc = new SeekerController(ui, sm, tf);
         });
     }
