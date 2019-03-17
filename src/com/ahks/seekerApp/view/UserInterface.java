@@ -6,6 +6,7 @@ import com.ahks.seekerApp.model.TableModel;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseListener;
 
 public class UserInterface extends JFrame {
 
@@ -59,6 +60,12 @@ public class UserInterface extends JFrame {
         addFileBtn.addActionListener(actionListener);
         searchBtn.addActionListener(actionListener);
     }
+    public void initializeMouseListener(MouseListener mouseListener){
+        table.addMouseListener(mouseListener);
+    }
+//    public void clearTextArea(){
+//        textAreaR.removeAll();
+//    }
 
     public JScrollPane getScrollPaneR() {
         return scrollPaneR;

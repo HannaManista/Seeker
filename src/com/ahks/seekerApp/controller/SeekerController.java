@@ -23,6 +23,7 @@ public class SeekerController implements ActionListener, MouseListener {
 
     public SeekerController(UserInterface UI, SeekerModel SM, TextFile TF) {
         UI.initializeActionListener(this);
+        UI.initializeMouseListener(this);
         this.ui = UI;
         this.sm = SM;
         this.tf = TF;
@@ -43,34 +44,34 @@ public class SeekerController implements ActionListener, MouseListener {
             path = tf.readFilePath(fc);
             name = tf.readFileName(fc);
             try {
-                ui.getTextAreaR().setText(null);
+                ui.getTextAreaR().setText("");
                 ui.getTableModel().addPath(name, path);
-                ui.getTextAreaR().append(tf.readFile(path));
+                ui.getTextAreaR().append(tf.readFile());
             } catch (IOException e) {
                 e.printStackTrace();
             }
-//         if(source == ui.getTableModel().addTableModelListener(new TableModelListener()) {
-//            if(source == ui.getTable().getMouseListeners()){
-//
-//
-//            }
         } else {
             System.out.println("No Selection ");
         }
     }
 
     public void mouseClicked(MouseEvent event){
-        System.out.println("mouseClicked!");
-        ui.getTextAreaR().setText(null);
-        int row = ui.getTable().rowAtPoint(event.getPoint());
-        int col = ui.getTable().columnAtPoint(event.getPoint());
-        String path = ui.getTableModel().getValueAt(row,col).toString();
-        System.out.println(path);
+
     }
 
     @Override
     public void mousePressed(MouseEvent e) {
-
+//        ui.getTextAreaR().setText("");
+        try {
+            int row = ui.getTable().rowAtPoint(e.getPoint());
+            String path = ui.getTableModel().getRowPath(row);
+//            String name = ui.getTableModel().getRowName(row);
+            System.out.println(row + " " + path);
+            tf.setFullPath(path);
+            ui.getTextAreaR().setText(tf.readFile());
+        } catch (IOException e1){
+            e1.printStackTrace();
+        }
     }
 
     @Override

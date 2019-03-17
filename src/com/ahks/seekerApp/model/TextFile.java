@@ -33,7 +33,7 @@ public class TextFile {
         return fileName;
     }
 
-    public String readFile(String filePath) throws IOException {
+    public String readFile() throws IOException {
         BufferedReader reader = new BufferedReader(new FileReader(fullPath));
         String         line = null;
         StringBuilder  stringBuilder = new StringBuilder();

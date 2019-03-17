@@ -38,4 +38,7 @@ public class TableModel extends AbstractTableModel {
                return null;
        }
    }
+   public String getRowPath(int row){
+       return fileArray.get(row).getPath();
+   }
 }
