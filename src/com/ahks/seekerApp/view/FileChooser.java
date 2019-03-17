@@ -3,8 +3,10 @@ package com.ahks.seekerApp.view;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
-class FileChooser extends JFrame {
+public class FileChooser extends JFrame {
 
     private JFileChooser chooser = new JFileChooser();
     private String[] directory = null;
@@ -23,20 +25,23 @@ class FileChooser extends JFrame {
         this.chooser.addChoosableFileFilter(new FileNameExtensionFilter("Text", "txt"));
 
 
-        //Getting path
-        if (this.chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
-            int i = this.chooser.getSelectedFiles().length;
-            int j = 0;
-            directory = new String[i];
-            for (File dir : this.chooser.getSelectedFiles()) {
-                directory[j] = dir + "";
-                j++;
-            }
-            System.out.println("getCurrentDirectory(): " + this.chooser.getCurrentDirectory());
-            System.out.println("getSelectedFile() : " + directory);
-        } else {
-            System.out.println("No Selection ");
+
+
+    }
+
+    //Getting path
+
+    public void getPath(){
+
+        int i = this.chooser.getSelectedFiles().length;
+        int j = 0;
+        directory = new String[i];
+        for (File dir : this.chooser.getSelectedFiles()) {
+            directory[j] = dir + "";
+            j++;
         }
+        System.out.println("getCurrentDirectory(): " + this.chooser.getCurrentDirectory());
+        System.out.println("getSelectedFile() : " + directory);
     }
 
     public JFileChooser getChooser() {
@@ -55,3 +60,4 @@ class FileChooser extends JFrame {
         this.directory = directory;
     }
 }
+
