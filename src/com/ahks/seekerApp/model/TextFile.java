@@ -9,14 +9,13 @@ import java.io.IOException;
 
 public class TextFile {
     private String fileName;
-    private String path;
     private int results;
     private File file;
     private String fullPath;
 
-    public TextFile(String name, String path) {
+    public TextFile(String name, String fullPath) {
         this.fileName = name;
-        this.path = path;
+        this.fullPath = fullPath;
         this.results = 0;
     }
 
@@ -55,14 +54,6 @@ public class TextFile {
 
     public void setName(String name) {
         this.fileName = name;
-    }
-
-    public String getPath() {
-        return path;
-    }
-
-    public void setPath(String path) {
-        this.path = path;
     }
 
     public int getResults() {

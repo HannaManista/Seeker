@@ -33,12 +33,12 @@ public class TableModel extends AbstractTableModel {
            case 0:
                return fileArray.get(row).getName();
            case 1:
-               return fileArray.get(row).getPath();
+               return fileArray.get(row).getFullPath();
            default:
                return null;
        }
    }
    public String getRowPath(int row){
-       return fileArray.get(row).getPath();
+       return fileArray.get(row).getFullPath();
    }
 }

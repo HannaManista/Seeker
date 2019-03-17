@@ -1,7 +1,6 @@
 package com.ahks.seekerApp.controller;
 
 import com.ahks.seekerApp.model.SeekerModel;
-import com.ahks.seekerApp.model.TableModel;
 import com.ahks.seekerApp.view.UserInterface;
 import com.ahks.seekerApp.view.FileChooser;
 import com.ahks.seekerApp.model.TextFile;
@@ -10,8 +9,6 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.IOException;
 import javax.swing.*;
-import javax.swing.event.TableModelEvent;
-import javax.swing.event.TableModelListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -37,16 +34,21 @@ public class SeekerController implements ActionListener, MouseListener {
             ui.getSearchBtn().setEnabled(true);
             ui.getSearchField().setEnabled(true);
         }
+        if(source == ui.getSearchBtn()){
+            String text = ui.getSearchField().getText();
+            System.out.println(text);
+            // TODO: search method calling
+        }
 
         if (fc.getChooser().showOpenDialog(fc) == JFileChooser.APPROVE_OPTION) {
-            String path;
+            String fullpath;
             String name;
-            path = tf.readFilePath(fc);
+            fullpath = tf.readFilePath(fc);
             name = tf.readFileName(fc);
             try {
                 ui.getTextAreaR().setText("");
-                ui.getTableModel().addPath(name, path);
-                ui.getTextAreaR().append(tf.readFile());
+                ui.getTableModel().addPath(name, fullpath);
+                ui.getTextAreaR().setText(tf.readFile());
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -55,22 +57,30 @@ public class SeekerController implements ActionListener, MouseListener {
         }
     }
 
+
     public void mouseClicked(MouseEvent event){
 
     }
 
     @Override
     public void mousePressed(MouseEvent e) {
-//        ui.getTextAreaR().setText("");
-        try {
-            int row = ui.getTable().rowAtPoint(e.getPoint());
-            String path = ui.getTableModel().getRowPath(row);
-//            String name = ui.getTableModel().getRowName(row);
-            System.out.println(row + " " + path);
-            tf.setFullPath(path);
-            ui.getTextAreaR().setText(tf.readFile());
-        } catch (IOException e1){
-            e1.printStackTrace();
+        Object source = e.getSource();
+
+        if(source == ui.getTable()) {
+            try {
+                System.out.println(source.toString());
+                int row = ui.getTable().rowAtPoint(e.getPoint());
+                String fullpath = ui.getTableModel().getRowPath(row);
+                tf.setFullPath(fullpath);
+                ui.getTextAreaR().setText(tf.readFile());
+            } catch (Exception ignore) {
+                System.out.println("Chosen space is out of bounds");
+            }
+        }
+        if(source == ui.getSearchField()){
+            System.out.println(source.toString());
+            ui.getSearchField().setText("");
+            // TODO: comparing methods
         }
     }
 

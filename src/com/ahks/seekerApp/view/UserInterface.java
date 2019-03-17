@@ -62,13 +62,7 @@ public class UserInterface extends JFrame {
     }
     public void initializeMouseListener(MouseListener mouseListener){
         table.addMouseListener(mouseListener);
-    }
-//    public void clearTextArea(){
-//        textAreaR.removeAll();
-//    }
-
-    public JScrollPane getScrollPaneR() {
-        return scrollPaneR;
+        searchField.addMouseListener(mouseListener);
     }
 
     private void initializeView() {
@@ -91,7 +85,7 @@ public class UserInterface extends JFrame {
         table.setBounds(0, 0, 170, 130);
         searchField.setBounds(STANDARD_GAP, 180, BUTTON_WIDTH, BUTTON_HEIGHT);
         addFileBtn.setBounds(STANDARD_GAP*2, STANDARD_GAP/2, BUTTON_WIDTH, BUTTON_HEIGHT );
-        searchBtn.setBounds(STANDARD_GAP+BUTTON_WIDTH,180,BUTTON_WIDTH/2, BUTTON_HEIGHT);
+        searchBtn.setBounds(STANDARD_GAP+BUTTON_WIDTH,180,70, BUTTON_HEIGHT);
         label.setBounds(230, STANDARD_GAP, BUTTON_WIDTH, BUTTON_HEIGHT );
         frame.setBounds(300, 300, FRAME_WIDTH, FRAME_HEIGHT);
 
