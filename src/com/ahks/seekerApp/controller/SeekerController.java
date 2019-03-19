@@ -34,16 +34,27 @@ public class SeekerController implements ActionListener, MouseListener {
         Object source = event.getSource();
         if (source == ui.getAddFileBtn()) {
             fc = new FileChooser();
+
+            ui.getAddStringBtn().setEnabled(true);
+          
 //          test skasowac
             btnSearchListener();
 
             ui.getSearchBtn().setEnabled(true);
+          
             ui.getSearchField().setEnabled(true);
         }
+        if(source == ui.getAddStringBtn()){
+            String inputSearch = ui.getSearchField().getText();
+            ui.getSearchBtn().setEnabled(true);
+            tf.getPhraseList().add(inputSearch);
+            System.out.println(tf.getPhraseList());
+        }
         if(source == ui.getSearchBtn()){
-            String text = ui.getSearchField().getText();
-            System.out.println(text);
-            // TODO: search method calling
+            int index = 0;  // TODO: thread chooses index of the word in list
+            String inputPhrase = tf.getPhraseList().get(index);
+            String fullPath = tf.readFilePath(fc);
+            tf.searchPhrase(inputPhrase, fullPath);
         }
 
         if (fc.getChooser().showOpenDialog(fc) == JFileChooser.APPROVE_OPTION) {
@@ -54,7 +65,7 @@ public class SeekerController implements ActionListener, MouseListener {
             try {
                 ui.getTextAreaR().setText("");
                 ui.getTableModel().addPath(name, fullpath);
-                ui.getTextAreaR().setText(tf.readFile());
+                ui.getTextAreaR().setText(tf.readFile(fullpath));
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -78,7 +89,7 @@ public class SeekerController implements ActionListener, MouseListener {
                 int row = ui.getTable().rowAtPoint(e.getPoint());
                 String fullpath = ui.getTableModel().getRowPath(row);
                 tf.setFullPath(fullpath);
-                ui.getTextAreaR().setText(tf.readFile());
+                ui.getTextAreaR().setText(tf.readFile(fullpath));
             } catch (Exception ignore) {
                 System.out.println("Chosen space is out of bounds");
             }

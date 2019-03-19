@@ -6,17 +6,19 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.*;
 
 public class TextFile {
     private String fileName;
-    private int results;
-    private File file;
     private String fullPath;
+    private File file;
+    private ArrayList<Integer> results = new ArrayList<Integer>();
+    private ArrayList<String> phraseList = new ArrayList<String>();     //TODO: to change initiation place
 
     public TextFile(String name, String fullPath) {
         this.fileName = name;
         this.fullPath = fullPath;
-        this.results = 0;
+//        this.results();
     }
 
     public TextFile() {}
@@ -32,7 +34,7 @@ public class TextFile {
         return fileName;
     }
 
-    public String readFile() throws IOException {
+    public String readFile(String fullPath) throws IOException {
         BufferedReader reader = new BufferedReader(new FileReader(fullPath));
         String         line = null;
         StringBuilder  stringBuilder = new StringBuilder();
@@ -48,6 +50,29 @@ public class TextFile {
             reader.close();
         }
     }
+
+    public ArrayList<Integer> searchPhrase(String inputPhrase, String fullPath) {
+        int phraseCounter = 0;
+        for (int j = 0; j < phraseList.size(); j++) {
+            try {
+                String text = readFile(fullPath).toLowerCase();
+                String[] words = text.split("\\s+");
+                if (text != null) {
+                    for (int i = 0; i < words.length; i++) {
+                        if (words[i].equals(inputPhrase)) {
+                            phraseCounter++;
+                        }
+                    }
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            results.add(j, phraseCounter);
+        }
+        System.out.println(results);
+        return results;
+    }
+
     public String getName() {
         return fileName;
     }
@@ -56,13 +81,13 @@ public class TextFile {
         this.fileName = name;
     }
 
-    public int getResults() {
-        return results;
-    }
-
-    public void setResults(int results) {
-        this.results = results;
-    }
+//    public int getResults() {
+//        return results<Integer>();
+//    }
+//
+//    public void setResults(int results) {
+//        this.results = results;
+//    }
 
     public String getFullPath() {
         return fullPath;
@@ -70,5 +95,9 @@ public class TextFile {
 
     public void setFullPath(String fullPath) {
         this.fullPath = fullPath;
+    }
+
+    public ArrayList<String> getPhraseList() {
+        return phraseList;
     }
 }
