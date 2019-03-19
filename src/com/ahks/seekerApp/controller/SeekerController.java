@@ -32,48 +32,51 @@ public class SeekerController implements ActionListener, MouseListener {
     @Override
     public void actionPerformed(ActionEvent event) {
         Object source = event.getSource();
+
         if (source == ui.getAddFileBtn()) {
             fc = new FileChooser();
+            if(fc.getChooser().showOpenDialog(fc) == JFileChooser.APPROVE_OPTION){
+                String fullpath;
+                String name;
+                fullpath = tf.readFilePath(fc);
+                name = tf.readFileName(fc);
+                try {
+                    ui.getTextAreaR().setText("");
+                    ui.getTableModel().addPath(name, fullpath);
+                    ui.getTextAreaR().setText(tf.readFile(fullpath));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
 
-            ui.getAddStringBtn().setEnabled(true);
-          
+            } else {
+                ui.getPopUpFrame().setVisible(true);
+                JOptionPane.showMessageDialog(ui.getPopUpFrame(),"No selection");
+            }
+
 //          test skasowac
-            btnSearchListener();
-
-            ui.getSearchBtn().setEnabled(true);
-          
             ui.getSearchField().setEnabled(true);
         }
+
         if(source == ui.getAddStringBtn()){
-            String inputSearch = ui.getSearchField().getText();
-            ui.getSearchBtn().setEnabled(true);
-            tf.getPhraseList().add(inputSearch);
-            System.out.println(tf.getPhraseList());
+            if(!ui.getSearchField().getText().equals("")) {
+                String inputSearch = ui.getSearchField().getText();
+                ui.getSearchBtn().setEnabled(true);
+                tf.getPhraseList().add(inputSearch);
+            }
+            else{
+                ui.getPopUpFrame().setVisible(true);
+                JOptionPane.showMessageDialog(ui.getPopUpFrame(),"Please insert a phrase");
+            }
         }
         if(source == ui.getSearchBtn()){
             int index = 0;  // TODO: thread chooses index of the word in list
             String inputPhrase = tf.getPhraseList().get(index);
             String fullPath = tf.readFilePath(fc);
             tf.searchPhrase(inputPhrase, fullPath);
-        }
-
-        if (fc.getChooser().showOpenDialog(fc) == JFileChooser.APPROVE_OPTION) {
-            String fullpath;
-            String name;
-            fullpath = tf.readFilePath(fc);
-            name = tf.readFileName(fc);
-            try {
-                ui.getTextAreaR().setText("");
-                ui.getTableModel().addPath(name, fullpath);
-                ui.getTextAreaR().setText(tf.readFile(fullpath));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        } else {
-            System.out.println("No Selection ");
+            tf.getPhraseList().clear();
+            tf.getResults().clear();
         }
     }
-
 
     public void mouseClicked(MouseEvent event){
 
@@ -85,19 +88,18 @@ public class SeekerController implements ActionListener, MouseListener {
 
         if(source == ui.getTable()) {
             try {
-                System.out.println(source.toString());
                 int row = ui.getTable().rowAtPoint(e.getPoint());
                 String fullpath = ui.getTableModel().getRowPath(row);
                 tf.setFullPath(fullpath);
                 ui.getTextAreaR().setText(tf.readFile(fullpath));
             } catch (Exception ignore) {
-                System.out.println("Chosen space is out of bounds");
+                ui.getPopUpFrame().setVisible(true);
+                JOptionPane.showMessageDialog(ui.getPopUpFrame(),"Chosen place is out of bounds");
             }
         }
         if(source == ui.getSearchField()){
-            System.out.println(source.toString());
             ui.getSearchField().setText("");
-            // TODO: comparing methods
+            ui.getAddStringBtn().setEnabled(true);
         }
     }
 
