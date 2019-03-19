@@ -19,6 +19,7 @@ public class UserInterface extends JFrame {
     private JTextField searchField;
     private JButton addFileBtn;
     private JButton searchBtn;
+    private JButton addStringBtn;
     private JScrollPane scrollPaneLD;
     private JScrollPane scrollPaneLU;
     private JScrollPane scrollPaneR;
@@ -41,6 +42,10 @@ public class UserInterface extends JFrame {
         return searchBtn;
     }
 
+    public JButton getAddStringBtn() {
+        return addStringBtn;
+    }
+
     public JTextField getSearchField() {
         return searchField;
     }
@@ -57,8 +62,10 @@ public class UserInterface extends JFrame {
         return tableModel;
     }
 
+
     public void initializeActionListener(ActionListener actionListener){
         addFileBtn.addActionListener(actionListener);
+        addStringBtn.addActionListener(actionListener);
         searchBtn.addActionListener(actionListener);
     }
     public void initializeMouseListener(MouseListener mouseListener){
@@ -66,32 +73,36 @@ public class UserInterface extends JFrame {
         searchField.addMouseListener(mouseListener);
     }
 
+
     private void initializeView() {
 
         this.tableModel = new SeekerModel().getTableModel();
         this.frame = new JFrame();
         this.textAreaR = new JTextArea();
         this.addFileBtn = new JButton("Add File");
+        this.searchBtn = new JButton("Search phrases");
         this.label = new JLabel("Text");
         this.searchField = new JTextField("Search word");
-        this.searchBtn = new JButton("Search");
+        this.addStringBtn = new JButton("Add Phrase");
         this.scrollPaneLD = new JScrollPane();
         this.scrollPaneLU = new JScrollPane();
         this.scrollPaneR = new JScrollPane();
         this.table = new JTable(tableModel);
 
-        scrollPaneR.setBounds(230, 2*STANDARD_GAP, 340, 350);
+        scrollPaneR.setBounds(230, 55, 340, 350);
         scrollPaneLU.setBounds(STANDARD_GAP, 40, 170, 130);
         scrollPaneLD.setBounds(STANDARD_GAP, 210, 170, 195);
         table.setBounds(0, 0, 170, 130);
         searchField.setBounds(STANDARD_GAP, 180, BUTTON_WIDTH, BUTTON_HEIGHT);
         addFileBtn.setBounds(STANDARD_GAP*2, STANDARD_GAP/2, BUTTON_WIDTH, BUTTON_HEIGHT );
-        searchBtn.setBounds(STANDARD_GAP+BUTTON_WIDTH,180,70, BUTTON_HEIGHT);
+        addStringBtn.setBounds(STANDARD_GAP+BUTTON_WIDTH,180,70, BUTTON_HEIGHT);
         label.setBounds(230, STANDARD_GAP, BUTTON_WIDTH, BUTTON_HEIGHT );
+        searchBtn.setBounds(190, 410, 2*BUTTON_WIDTH, 2*BUTTON_HEIGHT);
         frame.setBounds(300, 300, FRAME_WIDTH, FRAME_HEIGHT);
 
         searchBtn.setEnabled(false);
         searchField.setEnabled(false);
+        addStringBtn.setEnabled(false);
 
         scrollPaneR.getViewport().add(textAreaR);
         scrollPaneLU.add(table);
@@ -104,6 +115,7 @@ public class UserInterface extends JFrame {
         frame.add(scrollPaneLD);
         frame.add(addFileBtn);
         frame.add(searchBtn);
+        frame.add(addStringBtn);
         frame.add(label);
         frame.add(searchField);
         frame.setVisible(true);
