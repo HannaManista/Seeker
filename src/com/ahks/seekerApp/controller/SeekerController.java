@@ -107,10 +107,23 @@ public class SeekerController implements ActionListener, MouseListener {
 
 //  Po przycisnieciu btnSearch uruchamiana jest funkcja.
     void btnSearchListener(){
-//        sm.createSeekingThreads(ui.getList(), ui.getTableModel().getTextFilesPaths());
 //        test skasowac
-        String [] test = {"a", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b"};
-        sm.createSeekingThreads(test, test);
+        String [] phrases, paths, test = {"a", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b"};
+        phrases = test; //ui.getList()
+        paths = test; // ui.getTableModel().getTextFilesPaths()
+
+        ExecutorService executorService = Executors.newFixedThreadPool(100);
+        // for every seeked phrase created are thread for each one file
+        int i = 0, j = 0;
+        for (String phrase : phrases) {
+            i++;
+            j = 0;
+            for (String path : paths) {
+                j++;
+                Runnable threadModel = new ThreadModel(phrase, path, i + "-" + j);
+                executorService.execute(threadModel);
+            }
+        }
     }
 
 }
