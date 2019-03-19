@@ -4,15 +4,20 @@ import java.io.File;
 
 public class ThreadModel implements Runnable{
 
-    private TextFile textFile;
+    private String phrase;
+    private String path;
+    private String name;
 
-    public ThreadModel(TextFile textFile) {
-        this.textFile = textFile;
+    public ThreadModel(String phrase, String path, String name) {
+        this.phrase = phrase;
+        this.path = path;
+        this.name =name;
     }
 
     @Override
     public void run() {
-        //seek the string in the file >SeekerModel
-        //
+        System.out.println("Thread test: "+this.name);
+        //wywołać metodę wyszukującą
+
     }
 }

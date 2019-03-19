@@ -42,7 +42,7 @@ public class TableModel extends AbstractTableModel {
        return fileArray.get(row).getFullPath();
    }
 
-   // Stringi mają zostać czy zmienić typ?
+   // Stringi mają zostać czy zmienić typ? Potrzebne do wątków
     public String[] getTextFilesPaths () {
         int nRow = this.getRowCount();
         String[] filePath = new String[nRow];

@@ -34,6 +34,9 @@ public class SeekerController implements ActionListener, MouseListener {
         Object source = event.getSource();
         if (source == ui.getAddFileBtn()) {
             fc = new FileChooser();
+//          test skasowac
+            btnSearchListener();
+
             ui.getSearchBtn().setEnabled(true);
             ui.getSearchField().setEnabled(true);
         }
@@ -102,19 +105,12 @@ public class SeekerController implements ActionListener, MouseListener {
 
     }
 
-
+//  Po przycisnieciu btnSearch uruchamiana jest funkcja.
     void btnSearchListener(){
-        public void createSeekingThreads(int seekedStringCount, int seekedFileCount){
-
-        ExecutorService executorService = Executors.newFixedThreadPool(5);
-        // for every seeked phrase created are thread for each one file
-        for(String phrase : ui.getTableModel().getTextFilesPaths()){
-            for(int j=0; j<seekedFileCount; j++){
-                Runnable threadModel = new ThreadModel();
-                executorService.execute(threadModel);
-            }
-        }
-      }
+//        sm.createSeekingThreads(ui.getList(), ui.getTableModel().getTextFilesPaths());
+//        test skasowac
+        String [] test = {"a", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b"};
+        sm.createSeekingThreads(test, test);
     }
 
 }
