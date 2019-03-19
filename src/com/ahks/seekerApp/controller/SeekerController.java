@@ -18,12 +18,12 @@ public class SeekerController implements ActionListener, MouseListener {
     FileChooser fc;
     TextFile tf;
 
-    public SeekerController(UserInterface UI, SeekerModel SM, TextFile TF) {
-        UI.initializeActionListener(this);
-        UI.initializeMouseListener(this);
-        this.ui = UI;
-        this.sm = SM;
-        this.tf = TF;
+    public SeekerController(UserInterface ui, SeekerModel sm) {
+        ui.initializeActionListener(this);
+        ui.initializeMouseListener(this);
+        this.ui = ui;
+        this.sm = sm;
+        this.tf = sm.getTextFile();
     }
 
     @Override

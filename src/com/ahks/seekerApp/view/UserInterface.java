@@ -1,6 +1,7 @@
 package com.ahks.seekerApp.view;
 
 import com.ahks.seekerApp.controller.SeekerController;
+import com.ahks.seekerApp.model.SeekerModel;
 import com.ahks.seekerApp.model.TableModel;
 
 import javax.swing.*;
@@ -67,7 +68,7 @@ public class UserInterface extends JFrame {
 
     private void initializeView() {
 
-        tableModel = new TableModel();
+        this.tableModel = new SeekerModel().getTableModel();
         this.frame = new JFrame();
         this.textAreaR = new JTextArea();
         this.addFileBtn = new JButton("Add File");
@@ -89,7 +90,6 @@ public class UserInterface extends JFrame {
         label.setBounds(230, STANDARD_GAP, BUTTON_WIDTH, BUTTON_HEIGHT );
         frame.setBounds(300, 300, FRAME_WIDTH, FRAME_HEIGHT);
 
-        setVisible(true);
         searchBtn.setEnabled(false);
         searchField.setEnabled(false);
 
@@ -107,7 +107,7 @@ public class UserInterface extends JFrame {
         frame.add(label);
         frame.add(searchField);
         frame.setVisible(true);
-        frame.setLayout(new BorderLayout());
+//        frame.setLayout(new BorderLayout());
     }
 }
 
