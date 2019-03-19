@@ -32,13 +32,7 @@ public class SeekerController implements ActionListener, MouseListener {
     @Override
     public void actionPerformed(ActionEvent event) {
         Object source = event.getSource();
-        if (source == ui.getAddFileBtn()) {
-            fc = new FileChooser();
-          
-//          test skasowac
-            //btnSearchListener();
-            ui.getSearchField().setEnabled(true);
-        }
+
         if(source == ui.getAddStringBtn()){
             if(!ui.getSearchField().getText().equals("")) {
                 String inputSearch = ui.getSearchField().getText();
@@ -59,21 +53,45 @@ public class SeekerController implements ActionListener, MouseListener {
             tf.getResults().clear();
         }
 
-        if (fc.getChooser().showOpenDialog(fc) == JFileChooser.APPROVE_OPTION) {
-            String fullpath;
-            String name;
-            fullpath = tf.readFilePath(fc);
-            name = tf.readFileName(fc);
-            try {
-                ui.getTextAreaR().setText("");
-                ui.getTableModel().addPath(name, fullpath);
-                ui.getTextAreaR().setText(tf.readFile(fullpath));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        } else {
+//        if (fc.getChooser().showOpenDialog(fc) == JFileChooser.APPROVE_OPTION) {
+//            String fullpath;
+//            String name;
+//            fullpath = tf.readFilePath(fc);
+//            name = tf.readFileName(fc);
+//            try {
+//                ui.getTextAreaR().setText("");
+//                ui.getTableModel().addPath(name, fullpath);
+//                ui.getTextAreaR().setText(tf.readFile(fullpath));
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//        } else {
+//            ui.getPopUpFrame().setVisible(true);
+//            JOptionPane.showMessageDialog(ui.getPopUpFrame(),"No selection");
+//        }
+        if (source == ui.getAddFileBtn()) {
+            fc = new FileChooser();
+            if(fc.getChooser().showOpenDialog(fc) == JFileChooser.APPROVE_OPTION){
+                String fullpath;
+                String name;
+                fullpath = tf.readFilePath(fc);
+                name = tf.readFileName(fc);
+                try {
+                    ui.getTextAreaR().setText("");
+                    ui.getTableModel().addPath(name, fullpath);
+                    ui.getTextAreaR().setText(tf.readFile(fullpath));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+            } else {
             ui.getPopUpFrame().setVisible(true);
             JOptionPane.showMessageDialog(ui.getPopUpFrame(),"No selection");
+        }
+
+//          test skasowac
+            //btnSearchListener();
+            ui.getSearchField().setEnabled(true);
         }
     }
 
