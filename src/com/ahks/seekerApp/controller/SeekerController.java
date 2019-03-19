@@ -1,6 +1,7 @@
 package com.ahks.seekerApp.controller;
 
 import com.ahks.seekerApp.model.SeekerModel;
+import com.ahks.seekerApp.model.ThreadModel;
 import com.ahks.seekerApp.view.UserInterface;
 import com.ahks.seekerApp.view.FileChooser;
 import com.ahks.seekerApp.model.TextFile;
@@ -11,12 +12,14 @@ import java.io.IOException;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class SeekerController implements ActionListener, MouseListener {
-    UserInterface ui;
-    SeekerModel sm;
-    FileChooser fc;
-    TextFile tf;
+    private UserInterface ui;
+    private SeekerModel sm;
+    private FileChooser fc;
+    private TextFile tf;
 
     public SeekerController(UserInterface ui, SeekerModel sm) {
         ui.initializeActionListener(this);
@@ -98,4 +101,20 @@ public class SeekerController implements ActionListener, MouseListener {
     public void mouseExited(MouseEvent e) {
 
     }
+
+
+    void btnSearchListener(){
+        public void createSeekingThreads(int seekedStringCount, int seekedFileCount){
+
+        ExecutorService executorService = Executors.newFixedThreadPool(5);
+        // for every seeked phrase created are thread for each one file
+        for(String phrase : ui.getTableModel().getTextFilesPaths()){
+            for(int j=0; j<seekedFileCount; j++){
+                Runnable threadModel = new ThreadModel();
+                executorService.execute(threadModel);
+            }
+        }
+      }
+    }
+
 }
