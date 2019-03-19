@@ -13,12 +13,12 @@ public class TextFile {
     private String fullPath;
     private File file;
     private ArrayList<Integer> results = new ArrayList<Integer>();
-    private ArrayList<String> phraseList = new ArrayList<String>();     //TODO: to change initiation place
+    private ArrayList<String> phraseList = new ArrayList<String>();
 
     public TextFile(String name, String fullPath) {
         this.fileName = name;
         this.fullPath = fullPath;
-//        this.results();
+
     }
 
     public TextFile() {}

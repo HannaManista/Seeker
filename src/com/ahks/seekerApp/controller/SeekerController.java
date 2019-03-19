@@ -33,42 +33,6 @@ public class SeekerController implements ActionListener, MouseListener {
     public void actionPerformed(ActionEvent event) {
         Object source = event.getSource();
 
-        if(source == ui.getAddStringBtn()){
-            if(!ui.getSearchField().getText().equals("")) {
-                String inputSearch = ui.getSearchField().getText();
-                ui.getSearchBtn().setEnabled(true);
-                tf.getPhraseList().add(inputSearch);
-            }
-            else{
-                ui.getPopUpFrame().setVisible(true);
-                JOptionPane.showMessageDialog(ui.getPopUpFrame(),"Please insert a phrase");
-            }
-        }
-        if(source == ui.getSearchBtn()){
-            int index = 1;  // TODO: thread chooses index of the word in list
-            String inputPhrase = tf.getPhraseList().get(index);
-            String fullPath = tf.readFilePath(fc);
-            tf.searchPhrase(inputPhrase, fullPath);
-            tf.getPhraseList().clear();
-            tf.getResults().clear();
-        }
-
-//        if (fc.getChooser().showOpenDialog(fc) == JFileChooser.APPROVE_OPTION) {
-//            String fullpath;
-//            String name;
-//            fullpath = tf.readFilePath(fc);
-//            name = tf.readFileName(fc);
-//            try {
-//                ui.getTextAreaR().setText("");
-//                ui.getTableModel().addPath(name, fullpath);
-//                ui.getTextAreaR().setText(tf.readFile(fullpath));
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//        } else {
-//            ui.getPopUpFrame().setVisible(true);
-//            JOptionPane.showMessageDialog(ui.getPopUpFrame(),"No selection");
-//        }
         if (source == ui.getAddFileBtn()) {
             fc = new FileChooser();
             if(fc.getChooser().showOpenDialog(fc) == JFileChooser.APPROVE_OPTION){
@@ -85,16 +49,34 @@ public class SeekerController implements ActionListener, MouseListener {
                 }
 
             } else {
-            ui.getPopUpFrame().setVisible(true);
-            JOptionPane.showMessageDialog(ui.getPopUpFrame(),"No selection");
-        }
+                ui.getPopUpFrame().setVisible(true);
+                JOptionPane.showMessageDialog(ui.getPopUpFrame(),"No selection");
+            }
 
 //          test skasowac
-            //btnSearchListener();
             ui.getSearchField().setEnabled(true);
         }
-    }
 
+        if(source == ui.getAddStringBtn()){
+            if(!ui.getSearchField().getText().equals("")) {
+                String inputSearch = ui.getSearchField().getText();
+                ui.getSearchBtn().setEnabled(true);
+                tf.getPhraseList().add(inputSearch);
+            }
+            else{
+                ui.getPopUpFrame().setVisible(true);
+                JOptionPane.showMessageDialog(ui.getPopUpFrame(),"Please insert a phrase");
+            }
+        }
+        if(source == ui.getSearchBtn()){
+            int index = 0;  // TODO: thread chooses index of the word in list
+            String inputPhrase = tf.getPhraseList().get(index);
+            String fullPath = tf.readFilePath(fc);
+            tf.searchPhrase(inputPhrase, fullPath);
+            tf.getPhraseList().clear();
+            tf.getResults().clear();
+        }
+    }
 
     public void mouseClicked(MouseEvent event){
 
