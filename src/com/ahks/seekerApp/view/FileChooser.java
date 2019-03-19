@@ -23,15 +23,10 @@ public class FileChooser extends JFrame {
         this.chooser.setAcceptAllFileFilterUsed(false);
         // Possible format in FileChooser is ".txt"
         this.chooser.addChoosableFileFilter(new FileNameExtensionFilter("Text", "txt"));
-
-
-
-
     }
 
     //Getting path
-
-    public void getPath(){
+    public void getPath() {
 
         int i = this.chooser.getSelectedFiles().length;
         int j = 0;
