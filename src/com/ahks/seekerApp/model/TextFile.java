@@ -52,8 +52,9 @@ public class TextFile {
     }
 
     public ArrayList<Integer> searchPhrase(String inputPhrase, String fullPath) {
-        int phraseCounter = 0;
+
         for (int j = 0; j < phraseList.size(); j++) {
+            int phraseCounter = 0;
             try {
                 String text = readFile(fullPath).toLowerCase();
                 String[] words = text.split("\\s+");
@@ -67,9 +68,9 @@ public class TextFile {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            results.add(j, phraseCounter);
+            results.add(phraseCounter);
         }
-        System.out.println(results);
+//        System.out.println(results);
         return results;
     }
 
@@ -81,13 +82,9 @@ public class TextFile {
         this.fileName = name;
     }
 
-//    public int getResults() {
-//        return results<Integer>();
-//    }
-//
-//    public void setResults(int results) {
-//        this.results = results;
-//    }
+    public ArrayList<Integer> getResults() {
+        return results;
+    }
 
     public String getFullPath() {
         return fullPath;
