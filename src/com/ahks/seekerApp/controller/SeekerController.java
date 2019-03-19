@@ -1,6 +1,7 @@
 package com.ahks.seekerApp.controller;
 
 import com.ahks.seekerApp.model.SeekerModel;
+import com.ahks.seekerApp.model.ThreadModel;
 import com.ahks.seekerApp.view.UserInterface;
 import com.ahks.seekerApp.view.FileChooser;
 import com.ahks.seekerApp.model.TextFile;
@@ -11,12 +12,14 @@ import java.io.IOException;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class SeekerController implements ActionListener, MouseListener {
-    UserInterface ui;
-    SeekerModel sm;
-    FileChooser fc;
-    TextFile tf;
+    private UserInterface ui;
+    private SeekerModel sm;
+    private FileChooser fc;
+    private TextFile tf;
 
     public SeekerController(UserInterface ui, SeekerModel sm) {
         ui.initializeActionListener(this);
@@ -31,7 +34,14 @@ public class SeekerController implements ActionListener, MouseListener {
         Object source = event.getSource();
         if (source == ui.getAddFileBtn()) {
             fc = new FileChooser();
+
             ui.getAddStringBtn().setEnabled(true);
+          
+//          test skasowac
+            btnSearchListener();
+
+            ui.getSearchBtn().setEnabled(true);
+          
             ui.getSearchField().setEnabled(true);
         }
         if(source == ui.getAddStringBtn()){
@@ -105,4 +115,26 @@ public class SeekerController implements ActionListener, MouseListener {
     public void mouseExited(MouseEvent e) {
 
     }
+
+//  Po przycisnieciu btnSearch uruchamiana jest funkcja.
+    void btnSearchListener(){
+//        test skasowac
+        String [] phrases, paths, test = {"a", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b"};
+        phrases = test; //ui.getList()
+        paths = test; // ui.getTableModel().getTextFilesPaths()
+
+        ExecutorService executorService = Executors.newFixedThreadPool(100);
+        // for every seeked phrase created are thread for each one file
+        int i = 0, j = 0;
+        for (String phrase : phrases) {
+            i++;
+            j = 0;
+            for (String path : paths) {
+                j++;
+                Runnable threadModel = new ThreadModel(phrase, path, i + "-" + j);
+                executorService.execute(threadModel);
+            }
+        }
+    }
+
 }
