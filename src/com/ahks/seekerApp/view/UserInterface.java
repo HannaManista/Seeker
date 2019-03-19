@@ -1,31 +1,30 @@
 package com.ahks.seekerApp.view;
 
-import com.ahks.seekerApp.controller.SeekerController;
 import com.ahks.seekerApp.model.SeekerModel;
 import com.ahks.seekerApp.model.TableModel;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UserInterface extends JFrame {
 
     private TableModel tableModel;
     private JFrame frame;
-    private JFrame popUpFrame;
     private JLabel label;
-    private JLabel popUpLabel;
     private JTable table;
     private JTextArea textAreaR;
     private JTextField searchField;
-    private JButton popUpBtn;
     private JButton addFileBtn;
     private JButton searchBtn;
     private JButton addStringBtn;
     private JScrollPane scrollPaneLD;
     private JScrollPane scrollPaneLU;
     private JScrollPane scrollPaneR;
+
+    private List<String> phraseList = new ArrayList();
 
     int FRAME_WIDTH = 600;
     int FRAME_HEIGHT = 500;
@@ -65,16 +64,8 @@ public class UserInterface extends JFrame {
         return tableModel;
     }
 
-    public JButton getPopUpBtn() {
-        return popUpBtn;
-    }
-
-    public JFrame getPopUpFrame() {
-        return popUpFrame;
-    }
-
-    public JLabel getPopUpLabel() {
-        return popUpLabel;
+    public List<String> getPhraseList() {
+        return phraseList;
     }
 
     public void initializeActionListener(ActionListener actionListener){
@@ -92,14 +83,11 @@ public class UserInterface extends JFrame {
 
         this.tableModel = new SeekerModel().getTableModel();
         this.frame = new JFrame();
-        this.popUpFrame = new JFrame();
         this.textAreaR = new JTextArea();
-        this.popUpBtn = new JButton();
         this.addFileBtn = new JButton("Add File");
         this.searchBtn = new JButton("Search phrases");
         this.label = new JLabel("Text");
-        this.popUpLabel = new JLabel();
-        this.searchField = new JTextField("Search word");
+        this.searchField = new JTextField();
         this.addStringBtn = new JButton("Add Phrase");
         this.scrollPaneLD = new JScrollPane();
         this.scrollPaneLU = new JScrollPane();
@@ -116,9 +104,6 @@ public class UserInterface extends JFrame {
         label.setBounds(230, STANDARD_GAP, BUTTON_WIDTH, BUTTON_HEIGHT );
         searchBtn.setBounds(190, 410, 2*BUTTON_WIDTH, 2*BUTTON_HEIGHT);
         frame.setBounds(300, 300, FRAME_WIDTH, FRAME_HEIGHT);
-        popUpFrame.setBounds(400,400,100,50);
-        popUpBtn.setBounds(50,25,20,20);
-        popUpLabel.setBounds(10,10,80,20);
 
         searchBtn.setEnabled(false);
         searchField.setEnabled(false);
@@ -139,9 +124,6 @@ public class UserInterface extends JFrame {
         frame.add(label);
         frame.add(searchField);
         frame.setVisible(true);
-        popUpFrame.add(popUpBtn);
-        popUpFrame.setVisible(false);
-//        frame.setLayout(new BorderLayout());
     }
 }
 
