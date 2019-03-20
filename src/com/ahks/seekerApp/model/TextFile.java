@@ -2,6 +2,11 @@ package com.ahks.seekerApp.model;
 
 import com.ahks.seekerApp.view.FileChooser;
 
+import javax.swing.*;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.DefaultHighlighter;
+import javax.swing.text.Highlighter;
+import java.awt.*;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -19,14 +24,16 @@ public class TextFile {
 
     }
 
-    public TextFile() {}
+    public TextFile() {
+    }
 
-    public String readFilePath(FileChooser fc){
+    public String readFilePath(FileChooser fc) {
         file = fc.getChooser().getSelectedFile();
         fullPath = file.getAbsolutePath();
         return fullPath;
     }
-    public String readFileName(FileChooser fc){
+
+    public String readFileName(FileChooser fc) {
         file = fc.getChooser().getSelectedFile();
         fileName = file.getName();
         return fileName;
@@ -34,12 +41,12 @@ public class TextFile {
 
     public String readFile(String fullPath) throws IOException {
         BufferedReader reader = new BufferedReader(new FileReader(fullPath));
-        String         line = null;
-        StringBuilder  stringBuilder = new StringBuilder();
-        String         ls = System.getProperty("line.separator");
+        String line = null;
+        StringBuilder stringBuilder = new StringBuilder();
+        String ls = System.getProperty("line.separator");
 
         try {
-            while((line = reader.readLine()) != null) {
+            while ((line = reader.readLine()) != null) {
                 stringBuilder.append(line);
                 stringBuilder.append(ls);
             }
@@ -62,6 +69,7 @@ public class TextFile {
                     }
                 }
             }
+
         } catch (IOException e) {
             System.out.println("Błąd w obliczaniu zgodniści wyrazów i fraz");
             e.printStackTrace();

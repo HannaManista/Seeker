@@ -1,5 +1,6 @@
 package com.ahks.seekerApp.model;
 
+import javax.swing.*;
 import javax.xml.soap.Text;
 import java.io.File;
 

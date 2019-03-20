@@ -22,10 +22,6 @@ public class UserInterface extends JPanel{
     private TableModel tableModel;
     private MyListModel listModel;
 
-    private JScrollPane scrollPaneLD;
-    private JScrollPane scrollPaneLU;
-    private JScrollPane scrollPaneR;
-
     public UserInterface() {
         initializeView();
     }
@@ -84,25 +80,11 @@ public class UserInterface extends JPanel{
         this.tableModel = sm.getTableModel();
         this.listModel = sm.getListModel();
 
-//        this.scrollPaneLD = new JScrollPane();
-//        this.scrollPaneLU = new JScrollPane();
-//        this.scrollPaneR = new JScrollPane();
-
         this.table.setModel(tableModel);
         this.list.setModel(listModel);
 
         searchBtn.setEnabled(false);
         searchField.setEnabled(false);
         addStringBtn.setEnabled(false);
-
-//        scrollPaneR.getViewport().add(textAreaR);
-//        scrollPaneLU.add(table);
-//        scrollPaneLD.add(list);
-//        textAreaR.requestFocus();
-
-
-//        frame.add(scrollPaneR);
-//        frame.add(scrollPaneLU);
-//        frame.add(scrollPaneLD);
     }
 }
