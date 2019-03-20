@@ -12,8 +12,6 @@ public class TextFile {
     private String fileName;
     private String fullPath;
     private File file;
-    private ArrayList<Integer> results = new ArrayList<Integer>();
-    private ArrayList<String> phraseList = new ArrayList<String>();
 
     public TextFile(String name, String fullPath) {
         this.fileName = name;
@@ -51,27 +49,25 @@ public class TextFile {
         }
     }
 
-    public ArrayList<Integer> searchPhrase(String inputPhrase, String fullPath) {
+    public void searchPhrase(String fullPath, String phrase) {
 
-        for (int j = 0; j < phraseList.size(); j++) {
-            int phraseCounter = 0;
-            try {
-                String text = readFile(fullPath).toLowerCase();
-                String[] words = text.split("\\s+");
-                if (text != null) {
-                    for (int i = 0; i < words.length; i++) {
-                        if (words[i].equals(inputPhrase)) {
-                            phraseCounter++;
-                        }
+        int phraseCounter = 0;
+        try {
+            String text = this.readFile(fullPath).toLowerCase();
+            String[] words = text.split("\\s+");
+            if (text != null) {
+                for (int i = 0; i < words.length; i++) {
+                    if (words[i].equals(phrase)) {
+                        phraseCounter++;
                     }
                 }
-            } catch (IOException e) {
-                e.printStackTrace();
             }
-            results.add(phraseCounter);
+        } catch (IOException e) {
+            System.out.println("Błąd w obliczaniu zgodniści wyrazów i fraz");
+            e.printStackTrace();
         }
-        System.out.println(results);
-        return results;
+
+        System.out.println(Thread.currentThread().getName() + "found: " + phraseCounter + " results.");
     }
 
     public String getName() {
@@ -82,9 +78,9 @@ public class TextFile {
         this.fileName = name;
     }
 
-    public ArrayList<Integer> getResults() {
-        return results;
-    }
+//    public ArrayList<Integer> getResults() {
+//        return results;
+//    }
 
     public String getFullPath() {
         return fullPath;
@@ -94,7 +90,7 @@ public class TextFile {
         this.fullPath = fullPath;
     }
 
-    public ArrayList<String> getPhraseList() {
-        return phraseList;
-    }
+//    public ArrayList<String> getPhraseList() {
+//        return phraseList;
+//    }
 }

@@ -1,40 +1,33 @@
 package com.ahks.seekerApp.view;
 
-import com.ahks.seekerApp.controller.SeekerController;
+import com.ahks.seekerApp.model.MyListModel;
 import com.ahks.seekerApp.model.SeekerModel;
 import com.ahks.seekerApp.model.TableModel;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
 
-public class UserInterface extends JFrame {
+public class UserInterface extends JPanel{
+
+    private JButton addFileBtn;
+    private JTable table;
+    private JButton searchBtn;
+    private JList list;
+    private JTextField searchField;
+    private JButton addStringBtn;
+    private JTextArea textAreaR;
+    private JPanel panel;
 
     private TableModel tableModel;
-    private JFrame frame;
-    private JFrame popUpFrame;
-    private JLabel label;
-    private JLabel popUpLabel;
-    private JTable table;
-    private JTextArea textAreaR;
-    private JTextField searchField;
-    private JButton popUpBtn;
-    private JButton addFileBtn;
-    private JButton searchBtn;
-    private JButton addStringBtn;
+    private MyListModel listModel;
+
     private JScrollPane scrollPaneLD;
     private JScrollPane scrollPaneLU;
     private JScrollPane scrollPaneR;
 
-    int FRAME_WIDTH = 600;
-    int FRAME_HEIGHT = 500;
-    int STANDARD_GAP = FRAME_WIDTH/20;
-    int BUTTON_WIDTH = 100;
-    int BUTTON_HEIGHT = 20;
-
     public UserInterface() {
-        this.initializeView();
+        initializeView();
     }
 
     public JButton getAddFileBtn() {
@@ -65,17 +58,7 @@ public class UserInterface extends JFrame {
         return tableModel;
     }
 
-    public JButton getPopUpBtn() {
-        return popUpBtn;
-    }
-
-    public JFrame getPopUpFrame() {
-        return popUpFrame;
-    }
-
-    public JLabel getPopUpLabel() {
-        return popUpLabel;
-    }
+    public MyListModel getListModel() { return listModel; }
 
     public void initializeActionListener(ActionListener actionListener){
         addFileBtn.addActionListener(actionListener);
@@ -87,63 +70,39 @@ public class UserInterface extends JFrame {
         searchField.addMouseListener(mouseListener);
     }
 
-
     private void initializeView() {
 
-        this.tableModel = new SeekerModel().getTableModel();
-        this.frame = new JFrame();
-        this.popUpFrame = new JFrame();
-        this.textAreaR = new JTextArea();
-        this.popUpBtn = new JButton();
-        this.addFileBtn = new JButton("Add File");
-        this.searchBtn = new JButton("Search phrases");
-        this.label = new JLabel("Text");
-        this.popUpLabel = new JLabel();
-        this.searchField = new JTextField("Search word");
-        this.addStringBtn = new JButton("Add Phrase");
-        this.scrollPaneLD = new JScrollPane();
-        this.scrollPaneLU = new JScrollPane();
-        this.scrollPaneR = new JScrollPane();
-        this.table = new JTable(tableModel);
+        JFrame frame = new JFrame("Your window name");
+        frame.setTitle("Thread app");
+        frame.setContentPane(panel);
+        System.out.println(frame.getContentPane().getComponentCount());
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.pack();
+        frame.setVisible(true);
 
-        scrollPaneR.setBounds(230, 55, 340, 350);
-        scrollPaneLU.setBounds(STANDARD_GAP, 40, 170, 130);
-        scrollPaneLD.setBounds(STANDARD_GAP, 210, 170, 195);
-        table.setBounds(0, 0, 170, 130);
-        searchField.setBounds(STANDARD_GAP, 180, BUTTON_WIDTH, BUTTON_HEIGHT);
-        addFileBtn.setBounds(STANDARD_GAP*2, STANDARD_GAP/2, BUTTON_WIDTH, BUTTON_HEIGHT );
-        addStringBtn.setBounds(STANDARD_GAP+BUTTON_WIDTH,180,70, BUTTON_HEIGHT);
-        label.setBounds(230, STANDARD_GAP, BUTTON_WIDTH, BUTTON_HEIGHT );
-        searchBtn.setBounds(190, 410, 2*BUTTON_WIDTH, 2*BUTTON_HEIGHT);
-        frame.setBounds(300, 300, FRAME_WIDTH, FRAME_HEIGHT);
-        popUpFrame.setBounds(400,400,100,50);
-        popUpBtn.setBounds(50,25,20,20);
-        popUpLabel.setBounds(10,10,80,20);
+        SeekerModel sm = new SeekerModel();
+        this.tableModel = sm.getTableModel();
+        this.listModel = sm.getListModel();
+
+//        this.scrollPaneLD = new JScrollPane();
+//        this.scrollPaneLU = new JScrollPane();
+//        this.scrollPaneR = new JScrollPane();
+
+        this.table.setModel(tableModel);
+        this.list.setModel(listModel);
 
         searchBtn.setEnabled(false);
         searchField.setEnabled(false);
         addStringBtn.setEnabled(false);
 
-        scrollPaneR.getViewport().add(textAreaR);
-        scrollPaneLU.add(table);
-        textAreaR.requestFocus();
+//        scrollPaneR.getViewport().add(textAreaR);
+//        scrollPaneLU.add(table);
+//        scrollPaneLD.add(list);
+//        textAreaR.requestFocus();
 
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.getContentPane().setLayout(null);
-        frame.add(scrollPaneR);
-        frame.add(scrollPaneLU);
-        frame.add(scrollPaneLD);
-        frame.add(addFileBtn);
-        frame.add(searchBtn);
-        frame.add(addStringBtn);
-        frame.add(label);
-        frame.add(searchField);
-        frame.setVisible(true);
-        popUpFrame.add(popUpBtn);
-        popUpFrame.setVisible(false);
-//        frame.setLayout(new BorderLayout());
+
+//        frame.add(scrollPaneR);
+//        frame.add(scrollPaneLU);
+//        frame.add(scrollPaneLD);
     }
 }
-
-
-

@@ -32,49 +32,52 @@ public class SeekerController implements ActionListener, MouseListener {
     @Override
     public void actionPerformed(ActionEvent event) {
         Object source = event.getSource();
-
         if (source == ui.getAddFileBtn()) {
             fc = new FileChooser();
             if(fc.getChooser().showOpenDialog(fc) == JFileChooser.APPROVE_OPTION){
+                //
                 String fullpath;
-                String name;
+                //
                 fullpath = tf.readFilePath(fc);
-                name = tf.readFileName(fc);
+                fc.getPath();
+                String [] paths = fc.getDirectory();
+                String [] names = fc.getNames();
                 try {
                     ui.getTextAreaR().setText("");
-                    ui.getTableModel().addPath(name, fullpath);
+                    for(int i = 0 ; i<paths.length ; i++)
+                        ui.getTableModel().addPath(names[i], paths[i]);
+                    //
                     ui.getTextAreaR().setText(tf.readFile(fullpath));
+                    //
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
 
             } else {
-                ui.getPopUpFrame().setVisible(true);
-                JOptionPane.showMessageDialog(ui.getPopUpFrame(),"No selection");
+                JOptionPane.showMessageDialog(null,"No selection");
             }
 
-//          test skasowac
             ui.getSearchField().setEnabled(true);
         }
 
+        // Adding phrases to the list
         if(source == ui.getAddStringBtn()){
-            if(!ui.getSearchField().getText().equals("")) {
-                String inputSearch = ui.getSearchField().getText();
-                ui.getSearchBtn().setEnabled(true);
-                tf.getPhraseList().add(inputSearch);
-            }
-            else{
-                ui.getPopUpFrame().setVisible(true);
-                JOptionPane.showMessageDialog(ui.getPopUpFrame(),"Please insert a phrase");
+            String phrase = ui.getSearchField().getText();
+            if(!(phrase.equals("") || phrase.isEmpty())) {
+                ui.getListModel().add(phrase);
+            } else {
+                JOptionPane.showMessageDialog(null, "Please insert a phrase");
             }
         }
-        if(source == ui.getSearchBtn()){
-            int index = 0;  // TODO: thread chooses index of the word in list
-            String inputPhrase = tf.getPhraseList().get(index);
-            String fullPath = tf.readFilePath(fc);
-            tf.searchPhrase(inputPhrase, fullPath);
-            tf.getPhraseList().clear();
-            tf.getResults().clear();
+        if (source == ui.getSearchBtn()) {
+            long startTime = System.currentTimeMillis();
+            seek();
+            long stopTime = System.currentTimeMillis();
+            long elapsedTime = stopTime - startTime;
+            System.out.println("TIME: " + elapsedTime);
+//            System.out.println(results.toString());
+//            tf.getPhraseList().clear();
+//            tf.getResults().clear();
         }
     }
 
@@ -93,13 +96,12 @@ public class SeekerController implements ActionListener, MouseListener {
                 tf.setFullPath(fullpath);
                 ui.getTextAreaR().setText(tf.readFile(fullpath));
             } catch (Exception ignore) {
-                ui.getPopUpFrame().setVisible(true);
-                JOptionPane.showMessageDialog(ui.getPopUpFrame(),"Chosen place is out of bounds");
+                JOptionPane.showMessageDialog(null,"Chosen place is out of bounds");
             }
         }
         if(source == ui.getSearchField()){
-            ui.getSearchField().setText("");
             ui.getAddStringBtn().setEnabled(true);
+            ui.getSearchBtn().setEnabled(true);
         }
     }
 
@@ -118,25 +120,22 @@ public class SeekerController implements ActionListener, MouseListener {
 
     }
 
-//  Po przycisnieciu btnSearch uruchamiana jest funkcja.
-    void btnSearchListener(){
-//        test skasowac
-        String [] phrases, paths, test = {"a", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b"};
-        phrases = test; //ui.getList()
-        paths = test; // ui.getTableModel().getTextFilesPaths()
 
-        ExecutorService executorService = Executors.newFixedThreadPool(100);
+    public void seek() {
+
+        ExecutorService executorService = Executors.newFixedThreadPool(200);
         // for every seeked phrase created are thread for each one file
-        int i = 0, j = 0;
-        for (String phrase : phrases) {
-            i++;
-            j = 0;
-            for (String path : paths) {
-                j++;
-                Runnable threadModel = new ThreadModel(phrase, path, i + "-" + j);
+        int tableSize = ui.getTableModel().getRowCount();
+        int phrasesCount = ui.getListModel().getSize();
+        for (int i = 0; i < tableSize; i++) {
+            for (int j = 0; j < phrasesCount; j++) {
+                Runnable threadModel = new ThreadModel(ui.getListModel().getElementAt(j), ui.getTableModel().getRowPath(i), i + "-" + j);
                 executorService.execute(threadModel);
             }
         }
+        executorService.shutdown();
+        while (!executorService.isTerminated()) {
+        }
+        System.out.println("Finished all threads");
     }
-
 }
