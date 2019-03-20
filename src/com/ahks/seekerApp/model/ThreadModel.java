@@ -26,11 +26,11 @@ public class ThreadModel implements Runnable{
     public void run() {
         Thread.currentThread().setName(this.getName());
         System.out.println("Thread test: "+this.name);
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            Thread.sleep(1000);
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
         tf.searchPhrase(path, phrase);
 
     }

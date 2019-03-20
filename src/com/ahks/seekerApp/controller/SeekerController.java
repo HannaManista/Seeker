@@ -35,14 +35,20 @@ public class SeekerController implements ActionListener, MouseListener {
         if (source == ui.getAddFileBtn()) {
             fc = new FileChooser();
             if(fc.getChooser().showOpenDialog(fc) == JFileChooser.APPROVE_OPTION){
+                //
                 String fullpath;
-                String name;
+                //
                 fullpath = tf.readFilePath(fc);
-                name = tf.readFileName(fc);
+                fc.getPath();
+                String [] paths = fc.getDirectory();
+                String [] names = fc.getNames();
                 try {
                     ui.getTextAreaR().setText("");
-                    ui.getTableModel().addPath(name, fullpath);
+                    for(int i = 0 ; i<paths.length ; i++)
+                        ui.getTableModel().addPath(names[i], paths[i]);
+                    //
                     ui.getTextAreaR().setText(tf.readFile(fullpath));
+                    //
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -64,9 +70,11 @@ public class SeekerController implements ActionListener, MouseListener {
             }
         }
         if (source == ui.getSearchBtn()) {
-
+            long startTime = System.currentTimeMillis();
             seek();
-
+            long stopTime = System.currentTimeMillis();
+            long elapsedTime = stopTime - startTime;
+            System.out.println("TIME: " + elapsedTime);
 //            System.out.println(results.toString());
 //            tf.getPhraseList().clear();
 //            tf.getResults().clear();
@@ -115,7 +123,7 @@ public class SeekerController implements ActionListener, MouseListener {
 
     public void seek() {
 
-        ExecutorService executorService = Executors.newFixedThreadPool(100);
+        ExecutorService executorService = Executors.newFixedThreadPool(200);
         // for every seeked phrase created are thread for each one file
         int tableSize = ui.getTableModel().getRowCount();
         int phrasesCount = ui.getListModel().getSize();
@@ -125,5 +133,9 @@ public class SeekerController implements ActionListener, MouseListener {
                 executorService.execute(threadModel);
             }
         }
+        executorService.shutdown();
+        while (!executorService.isTerminated()) {
+        }
+        System.out.println("Finished all threads");
     }
 }
