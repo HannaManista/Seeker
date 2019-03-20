@@ -11,6 +11,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.IOException;
 import javax.swing.*;
+import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultHighlighter;
 import javax.swing.text.Highlighter;
 import java.awt.event.ActionEvent;
@@ -47,11 +48,12 @@ public class SeekerController implements ActionListener, MouseListener {
                 String [] names = fc.getNames();
                 try {
                     ui.getTextAreaR().setText("");
-                    for(int i = 0 ; i<paths.length ; i++)
+                    for(int i = 0; i<paths.length ; i++)
                         ui.getTableModel().addPath(names[i], paths[i]);
                     //
-                    ui.getTextAreaR().setText(tf.readFile(fullpath));
-                    //
+                    ui.getTextAreaR().setText(tf.readFile(paths[paths.length-1]));
+                    int ind = ui.getTableModel().getRowCount()-1;
+                    ui.getTable().setRowSelectionInterval(ind, ind);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -71,6 +73,7 @@ public class SeekerController implements ActionListener, MouseListener {
             } else {
                 JOptionPane.showMessageDialog(null, "Please insert a phrase");
             }
+            ui.getSearchField().setText("");
         }
         if (source == ui.getSearchBtn()) {
             long startTime = System.currentTimeMillis();
@@ -78,6 +81,7 @@ public class SeekerController implements ActionListener, MouseListener {
             long stopTime = System.currentTimeMillis();
             long elapsedTime = stopTime - startTime;
             System.out.println("TIME: " + elapsedTime);
+            highlighting();
 //            System.out.println(results.toString());
 //            tf.getPhraseList().clear();
 //            tf.getResults().clear();
@@ -93,27 +97,7 @@ public class SeekerController implements ActionListener, MouseListener {
         Object source = e.getSource();
 
         if(source == ui.getTable()) {
-            try {
-                int row = ui.getTable().rowAtPoint(e.getPoint());
-                String fullpath = ui.getTableModel().getRowPath(row);
-                tf.setFullPath(fullpath);
-                ui.getTextAreaR().setText(tf.readFile(fullpath));
-
-                Highlighter highlighter = ui.getTextAreaR().getHighlighter();
-                Highlighter.HighlightPainter painter = new DefaultHighlighter.DefaultHighlightPainter(Color.pink);
-                String str = ui.getTextAreaR().getText();
-                int p0=-1;
-                do{
-                    p0 = str.indexOf("kot", p0+1);
-                    int p1 = p0 + "kot".length();
-                    if(p0>=0)
-                        highlighter.addHighlight(p0, p1, painter);
-                    System.out.println(p0);
-                }while(p0>=0 && p0<str.length());
-            } catch (Exception ignore) {
-                JOptionPane.showMessageDialog(null,"Chosen place is out of bounds");
-                ignore.printStackTrace();
-            }
+            highlighting();
         }
         if(source == ui.getSearchField()){
             ui.getAddStringBtn().setEnabled(true);
@@ -136,8 +120,35 @@ public class SeekerController implements ActionListener, MouseListener {
 
     }
 
-    public void seek() {
+    private void highlighting(){
+        try {
+            int row = ui.getTable().getSelectedRow();
+            String fullpath = ui.getTableModel().getRowPath(row);
+            tf.setFullPath(fullpath);
+            ui.getTextAreaR().setText(tf.readFile(fullpath));
 
+            Highlighter highlighter = ui.getTextAreaR().getHighlighter();
+            Highlighter.HighlightPainter painter = new DefaultHighlighter.DefaultHighlightPainter(Color.pink);
+            String str = ui.getTextAreaR().getText();
+            for(int i = 0; i<ui.getListModel().getSize(); i++){
+                String phrase = ui.getListModel().getElementAt(i);
+                int p0=-1;
+                do{
+                    p0 = str.indexOf(phrase, p0+1);
+                    int p1 = p0 + phrase.length();
+                    if(p0>=0)
+                        highlighter.addHighlight(p0, p1, painter);
+                    System.out.println(p0);
+                }while(p0>=0 && p0<str.length());
+            }
+        } catch (BadLocationException ble) {
+            ble.printStackTrace();
+        } catch (IOException ioe) {
+            JOptionPane.showMessageDialog(null,"Chosen place is out of bounds");;
+        }
+    }
+
+    public void seek() {
         ExecutorService executorService = Executors.newFixedThreadPool(20);
         // for every seeked phrase created are thread for each one file
         int tableSize = ui.getTableModel().getRowCount();
