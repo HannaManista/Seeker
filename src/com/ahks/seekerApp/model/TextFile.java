@@ -17,11 +17,13 @@ public class TextFile {
     private String fileName;
     private String fullPath;
     private File file;
+    private int results;
+    private ArrayList<Integer> resultsArray;
 
-    public TextFile(String name, String fullPath) {
+    public TextFile(String name, String fullPath, int results) {
         this.fileName = name;
         this.fullPath = fullPath;
-
+        this.results = results;
     }
 
     public TextFile() {
@@ -56,26 +58,28 @@ public class TextFile {
         }
     }
 
-    public void searchPhrase(String fullPath, String phrase) {
+    public Integer searchPhrase(String fullPath, String phrase) {
 
         int phraseCounter = 0;
         try {
             String text = this.readFile(fullPath).toLowerCase();
             String[] words = text.split("\\s+");
+            System.out.println("length of the text "+text.length());
             if (text != null) {
                 for (int i = 0; i < words.length; i++) {
-                    if (words[i].equals(phrase)) {
+                    if (words[i].contains(phrase)) {
                         phraseCounter++;
                     }
                 }
             }
-
         } catch (IOException e) {
             System.out.println("Błąd w obliczaniu zgodniści wyrazów i fraz");
             e.printStackTrace();
         }
+//        System.out.println("found: " + phraseCounter + " results.");
 
-        System.out.println(Thread.currentThread().getName() + "found: " + phraseCounter + " results.");
+        results = phraseCounter;
+        return phraseCounter;
     }
 
     public String getName() {
@@ -98,7 +102,14 @@ public class TextFile {
         this.fullPath = fullPath;
     }
 
-//    public ArrayList<String> getPhraseList() {
+    public int getResults() {
+        return results;
+    }
+
+    public void setResults(int results) {
+        this.results = results;
+    }
+    //    public ArrayList<String> getPhraseList() {
 //        return phraseList;
 //    }
 }

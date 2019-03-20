@@ -6,14 +6,28 @@ import java.util.ArrayList;
 public class TableModel extends AbstractTableModel {
 
     private ArrayList<TextFile> fileArray;
-    private String[] columnNames = {"Name","Path"};
+    private ArrayList<Integer> resultsArray;
+    private String[] columnNames = {"Name","Path","Matched Results"};
 
    public TableModel() {
        fileArray = new ArrayList<TextFile>();
+        resultsArray = new ArrayList<Integer>();
+
    }
 
-   public void addPath(String fileName, String filePath) {
-       fileArray.add(new TextFile(fileName, filePath));
+    public ArrayList<Integer> getResultsArray() {
+        return resultsArray;
+    }
+
+    public void addFileToArray(String fileName, String filePath, int results) {
+       fileArray.add(new TextFile(fileName, filePath, results));
+       resultsArray.add(0);
+       fireTableDataChanged();
+   }
+
+   public void modifyResultsInFileArrayAt(int index, int result){
+       fileArray.get(index).setResults(result);
+       resultsArray.set(index, result);
        fireTableDataChanged();
    }
 
@@ -29,7 +43,7 @@ public class TableModel extends AbstractTableModel {
 
    @Override
    public int getColumnCount() {
-       return 2;
+       return 3;
    }
 
    @Override
@@ -39,6 +53,8 @@ public class TableModel extends AbstractTableModel {
                return fileArray.get(row).getName();
            case 1:
                return fileArray.get(row).getFullPath();
+           case 2:
+               return fileArray.get(row).getResults();
            default:
                return null;
        }

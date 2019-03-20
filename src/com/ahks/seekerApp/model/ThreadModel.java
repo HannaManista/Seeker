@@ -1,12 +1,8 @@
 package com.ahks.seekerApp.model;
 
-import javax.swing.*;
-import javax.xml.soap.Text;
-import java.io.File;
+import java.util.concurrent.Callable;
 
-import static java.lang.Thread.sleep;
-
-public class ThreadModel implements Runnable{
+public class ThreadModel implements Callable<Integer> {
 
     private TextFile tf = new TextFile();
     private String phrase;
@@ -23,8 +19,12 @@ public class ThreadModel implements Runnable{
         this.name =name;
     }
 
+    public TextFile getTf() {
+        return tf;
+    }
+
     @Override
-    public void run() {
+    public Integer call() {
         Thread.currentThread().setName(this.getName());
         System.out.println("Thread test: "+this.name);
 //        try {
@@ -32,7 +32,7 @@ public class ThreadModel implements Runnable{
 //        } catch (InterruptedException e) {
 //            e.printStackTrace();
 //        }
-        tf.searchPhrase(path, phrase);
+        return tf.searchPhrase(path, phrase);
 
     }
 }

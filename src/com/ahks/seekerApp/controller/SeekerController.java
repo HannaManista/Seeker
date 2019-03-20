@@ -16,8 +16,11 @@ import javax.swing.text.DefaultHighlighter;
 import javax.swing.text.Highlighter;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 public class SeekerController implements ActionListener, MouseListener {
     private UserInterface ui;
@@ -49,7 +52,7 @@ public class SeekerController implements ActionListener, MouseListener {
                 try {
                     ui.getTextAreaR().setText("");
                     for(int i = 0; i<paths.length ; i++)
-                        ui.getTableModel().addPath(names[i], paths[i]);
+                        ui.getTableModel().addFileToArray(names[i], paths[i], 0);
                     //
                     ui.getTextAreaR().setText(tf.readFile(paths[paths.length-1]));
                     int ind = ui.getTableModel().getRowCount()-1;
@@ -123,13 +126,15 @@ public class SeekerController implements ActionListener, MouseListener {
     private void highlighting(){
         try {
             int row = ui.getTable().getSelectedRow();
-            String fullpath = ui.getTableModel().getRowPath(row);
+            System.out.println("before bug"+row);
+//            String fullpath = ui.getTableModel().getRowPath(row);
+            System.out.println(fullpath);
             tf.setFullPath(fullpath);
             ui.getTextAreaR().setText(tf.readFile(fullpath));
 
             Highlighter highlighter = ui.getTextAreaR().getHighlighter();
             Highlighter.HighlightPainter painter = new DefaultHighlighter.DefaultHighlightPainter(Color.pink);
-            String str = ui.getTextAreaR().getText();
+            String str = ui.getTextAreaR().getText().toLowerCase();
             for(int i = 0; i<ui.getListModel().getSize(); i++){
                 String phrase = ui.getListModel().getElementAt(i);
                 int p0=-1;
@@ -153,15 +158,28 @@ public class SeekerController implements ActionListener, MouseListener {
         // for every seeked phrase created are thread for each one file
         int tableSize = ui.getTableModel().getRowCount();
         int phrasesCount = ui.getListModel().getSize();
+        ArrayList<Future<Integer>> list = new ArrayList<Future<Integer>>();
         for (int i = 0; i < tableSize; i++) {
             for (int j = 0; j < phrasesCount; j++) {
-                Runnable threadModel = new ThreadModel(ui.getListModel().getElementAt(j), ui.getTableModel().getRowPath(i), i + "-" + j);
-                executorService.execute(threadModel);
+                Callable threadModel = new ThreadModel(ui.getListModel().getElementAt(j), ui.getTableModel().getRowPath(i), i + "-" + j);
+                Future<Integer> element = executorService.submit(threadModel);
+                list.add(element);
+//                try {
+//                    ui.getTableModel().modifyResultsInFileArrayAt(i, element.get();)
+//                } catch(Exception ignore){}
             }
         }
         executorService.shutdown();
         while (!executorService.isTerminated()) {
         }
-        System.out.println("Finished all threads");
+        System.out.println("Length: "+ui.getTableModel().getResultsArray().size());
+        for(int index = 0; index < list.size(); index++) {
+            try {
+                ui.getTableModel().modifyResultsInFileArrayAt(index, list.get(index).get());
+                System.out.println("lista: " + ui.getTableModel().getResultsArray().get(index));
+            } catch(Exception ignore){}
+        }
+            System.out.println("Finished all threads");
+
     }
 }
