@@ -52,7 +52,7 @@ public class SeekerController implements ActionListener, MouseListener {
                 try {
                     ui.getTextAreaR().setText("");
                     for(int i = 0; i<paths.length ; i++)
-                        ui.getTableModel().addFileToArray(names[i], paths[i], 0);
+                        ui.getTableModel().addFileToArray(names[i], paths[i], new ArrayList<Integer>());
                     //
                     ui.getTextAreaR().setText(tf.readFile(paths[paths.length-1]));
                     int ind = ui.getTableModel().getRowCount()-1;
@@ -85,6 +85,7 @@ public class SeekerController implements ActionListener, MouseListener {
             long elapsedTime = stopTime - startTime;
             System.out.println("TIME: " + elapsedTime);
             highlighting();
+            ui.getTable().updateUI();
 //            System.out.println(results.toString());
 //            tf.getPhraseList().clear();
 //            tf.getResults().clear();
@@ -126,8 +127,9 @@ public class SeekerController implements ActionListener, MouseListener {
     private void highlighting(){
         try {
             int row = ui.getTable().getSelectedRow();
+//            int row = ui.getTable().getSelectedRow();
             System.out.println("before bug"+row);
-//            String fullpath = ui.getTableModel().getRowPath(row);
+            String fullpath = ui.getTableModel().getRowPath(row);
             System.out.println(fullpath);
             tf.setFullPath(fullpath);
             ui.getTextAreaR().setText(tf.readFile(fullpath));
@@ -158,12 +160,14 @@ public class SeekerController implements ActionListener, MouseListener {
         // for every seeked phrase created are thread for each one file
         int tableSize = ui.getTableModel().getRowCount();
         int phrasesCount = ui.getListModel().getSize();
-        ArrayList<Future<Integer>> list = new ArrayList<Future<Integer>>();
+        ArrayList<ArrayList<Future<Integer>>> listOfLists = new ArrayList<ArrayList<Future<Integer>>>();
+//        ArrayList<Future<Integer>> list = new ArrayList<Future<Integer>>();
         for (int i = 0; i < tableSize; i++) {
+            listOfLists.add(new ArrayList<Future<Integer>>());
             for (int j = 0; j < phrasesCount; j++) {
                 Callable threadModel = new ThreadModel(ui.getListModel().getElementAt(j), ui.getTableModel().getRowPath(i), i + "-" + j);
                 Future<Integer> element = executorService.submit(threadModel);
-                list.add(element);
+                listOfLists.get(i).add(element);
 //                try {
 //                    ui.getTableModel().modifyResultsInFileArrayAt(i, element.get();)
 //                } catch(Exception ignore){}
@@ -173,12 +177,33 @@ public class SeekerController implements ActionListener, MouseListener {
         while (!executorService.isTerminated()) {
         }
         System.out.println("Length: "+ui.getTableModel().getResultsArray().size());
-        for(int index = 0; index < list.size(); index++) {
-            try {
-                ui.getTableModel().modifyResultsInFileArrayAt(index, list.get(index).get());
-                System.out.println("lista: " + ui.getTableModel().getResultsArray().get(index));
-            } catch(Exception ignore){}
+        System.out.println("size of list of lists"+listOfLists.size());
+        for(int fileIndex = 0; fileIndex < listOfLists.size(); fileIndex++) {
+            System.out.println("file index "+fileIndex+"zakres "+listOfLists.get(fileIndex).size());
+            if(ui.getTableModel().getResultsArray().size() < fileIndex+1){
+                ui.getTableModel().getResultsArray().add(new ArrayList<Integer>());
+            }
+            for (int phraseIndex = 0; phraseIndex < listOfLists.get(fileIndex).size(); phraseIndex++) {
+                if(ui.getTableModel().getResultsArray().get(fileIndex).size() < phraseIndex+1){
+                    ui.getTableModel().getResultsArray().get(fileIndex).add(new Integer(0));
+                }
+                try {
+                    ui.getTableModel().getResultsArray().get(fileIndex).set(phraseIndex, listOfLists.get(fileIndex).get(phraseIndex).get());
+                    System.out.println("lista: " + ui.getTableModel().getResultsArray().get(fileIndex).get(phraseIndex));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
         }
+//        for(ArrayList<Future<Integer>> list : listOfLists){
+//            System.out.println("new list");
+//            for(Future<Integer> element : list){
+//                try {
+//                    System.out.println("Elements of list" + element.get());
+//                    ui.getTableModel().getResultsArray().
+//                }catch(Exception ignore){}
+//            }
+//        }
             System.out.println("Finished all threads");
 
     }

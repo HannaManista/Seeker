@@ -11,16 +11,16 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.*;
 
 public class TextFile {
     private String fileName;
     private String fullPath;
     private File file;
-    private int results;
-    private ArrayList<Integer> resultsArray;
+    private ArrayList<Integer> results;
 
-    public TextFile(String name, String fullPath, int results) {
+    public TextFile(String name, String fullPath, ArrayList<Integer> results) {
         this.fileName = name;
         this.fullPath = fullPath;
         this.results = results;
@@ -78,7 +78,6 @@ public class TextFile {
         }
 //        System.out.println("found: " + phraseCounter + " results.");
 
-        results = phraseCounter;
         return phraseCounter;
     }
 
@@ -102,11 +101,11 @@ public class TextFile {
         this.fullPath = fullPath;
     }
 
-    public int getResults() {
+    public ArrayList<Integer> getResults() {
         return results;
     }
 
-    public void setResults(int results) {
+    public void setResults(ArrayList<Integer> results) {
         this.results = results;
     }
     //    public ArrayList<String> getPhraseList() {

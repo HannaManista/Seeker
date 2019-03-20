@@ -6,30 +6,31 @@ import java.util.ArrayList;
 public class TableModel extends AbstractTableModel {
 
     private ArrayList<TextFile> fileArray;
-    private ArrayList<Integer> resultsArray;
+    private ArrayList<ArrayList<Integer>> resultsArray;
     private String[] columnNames = {"Name","Path","Matched Results"};
 
    public TableModel() {
        fileArray = new ArrayList<TextFile>();
-        resultsArray = new ArrayList<Integer>();
+        resultsArray = new ArrayList<ArrayList<Integer>>();
 
    }
 
-    public ArrayList<Integer> getResultsArray() {
+    public ArrayList<ArrayList<Integer>> getResultsArray() {
         return resultsArray;
     }
 
-    public void addFileToArray(String fileName, String filePath, int results) {
+    public void addFileToArray(String fileName, String filePath, ArrayList<Integer> results) {
        fileArray.add(new TextFile(fileName, filePath, results));
-       resultsArray.add(0);
+       resultsArray.add(results);
        fireTableDataChanged();
    }
 
-   public void modifyResultsInFileArrayAt(int index, int result){
-       fileArray.get(index).setResults(result);
-       resultsArray.set(index, result);
-       fireTableDataChanged();
-   }
+//   public void modifyResultsInFileArrayAt(int index, int result){
+//       fileArray.get(index).setResults(result);
+//       resultsArray.set(index, result);
+
+//       fireTableDataChanged();
+//   }
 
     @Override
     public String getColumnName(int column) {
