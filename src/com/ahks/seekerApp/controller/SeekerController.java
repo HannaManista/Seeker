@@ -148,7 +148,7 @@ public class SeekerController implements ActionListener, MouseListener {
         }
     }
 
-    public void seek() {
+    private void seek() {
         ExecutorService executorService = Executors.newFixedThreadPool(20);
         // for every seeked phrase created are thread for each one file
         int tableSize = ui.getTableModel().getRowCount();
