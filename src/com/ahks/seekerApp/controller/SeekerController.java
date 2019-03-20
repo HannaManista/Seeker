@@ -6,10 +6,13 @@ import com.ahks.seekerApp.view.UserInterface;
 import com.ahks.seekerApp.view.FileChooser;
 import com.ahks.seekerApp.model.TextFile;
 
+import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.IOException;
 import javax.swing.*;
+import javax.swing.text.DefaultHighlighter;
+import javax.swing.text.Highlighter;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.concurrent.ExecutorService;
@@ -95,8 +98,21 @@ public class SeekerController implements ActionListener, MouseListener {
                 String fullpath = ui.getTableModel().getRowPath(row);
                 tf.setFullPath(fullpath);
                 ui.getTextAreaR().setText(tf.readFile(fullpath));
+
+                Highlighter highlighter = ui.getTextAreaR().getHighlighter();
+                Highlighter.HighlightPainter painter = new DefaultHighlighter.DefaultHighlightPainter(Color.pink);
+                String str = ui.getTextAreaR().getText();
+                int p0=-1;
+                do{
+                    p0 = str.indexOf("kot", p0+1);
+                    int p1 = p0 + "kot".length();
+                    if(p0>=0)
+                        highlighter.addHighlight(p0, p1, painter);
+                    System.out.println(p0);
+                }while(p0>=0 && p0<str.length());
             } catch (Exception ignore) {
                 JOptionPane.showMessageDialog(null,"Chosen place is out of bounds");
+                ignore.printStackTrace();
             }
         }
         if(source == ui.getSearchField()){
@@ -120,10 +136,9 @@ public class SeekerController implements ActionListener, MouseListener {
 
     }
 
-
     public void seek() {
 
-        ExecutorService executorService = Executors.newFixedThreadPool(200);
+        ExecutorService executorService = Executors.newFixedThreadPool(20);
         // for every seeked phrase created are thread for each one file
         int tableSize = ui.getTableModel().getRowCount();
         int phrasesCount = ui.getListModel().getSize();

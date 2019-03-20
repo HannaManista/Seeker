@@ -6,7 +6,7 @@ import java.util.ArrayList;
 public class TableModel extends AbstractTableModel {
 
     private ArrayList<TextFile> fileArray;
-    private String[] columnNames = {"fileName","filePath"};
+    private String[] columnNames = {"Name","Path"};
 
    public TableModel() {
        fileArray = new ArrayList<TextFile>();
@@ -17,7 +17,12 @@ public class TableModel extends AbstractTableModel {
        fireTableDataChanged();
    }
 
-   @Override
+    @Override
+    public String getColumnName(int column) {
+        return columnNames[column];
+    }
+
+    @Override
    public int getRowCount() {
        return fileArray.size();
    }
