@@ -41,7 +41,7 @@
           </grid>
         </constraints>
         <properties>
-          <text value="kokos"/>
+          <text value=""/>
         </properties>
       </component>
       <component id="4329a" class="javax.swing.JButton" binding="addStringBtn">
@@ -78,12 +78,6 @@
         </constraints>
         <properties>
           <model>
-            <item value="s"/>
-            <item value="s"/>
-            <item value="s"/>
-            <item value="s"/>
-            <item value="s"/>
-            <item value="s"/>
             <item value="s"/>
           </model>
         </properties>

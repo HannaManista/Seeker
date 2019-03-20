@@ -8,7 +8,7 @@ public class SeekerModel {
 
     private TextFile textFile = new TextFile();
     private TableModel tableModel = new TableModel();
-    private ListModel listModel = new ListModel();
+    private MyListModel listModel = new MyListModel();
 
 
     public TextFile getTextFile() {
@@ -19,5 +19,5 @@ public class SeekerModel {
         return tableModel;
     }
 
-    public ListModel getListModel() { return listModel; }
+    public MyListModel getListModel() { return listModel; }
 }
