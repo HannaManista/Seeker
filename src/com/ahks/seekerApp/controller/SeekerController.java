@@ -1,7 +1,6 @@
 package com.ahks.seekerApp.controller;
 
 import com.ahks.seekerApp.model.SeekerModel;
-import com.ahks.seekerApp.model.ThreadModel;
 import com.ahks.seekerApp.view.UserInterface;
 import com.ahks.seekerApp.view.FileChooser;
 import com.ahks.seekerApp.model.TextFile;
@@ -12,9 +11,6 @@ import java.io.IOException;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 public class SeekerController implements ActionListener, MouseListener {
     private UserInterface ui;
@@ -33,7 +29,7 @@ public class SeekerController implements ActionListener, MouseListener {
     @Override
     public void actionPerformed(ActionEvent event) {
         Object source = event.getSource();
-
+        System.out.println("test");
         if (source == ui.getAddFileBtn()) {
             fc = new FileChooser();
             if(fc.getChooser().showOpenDialog(fc) == JFileChooser.APPROVE_OPTION){
@@ -60,7 +56,8 @@ public class SeekerController implements ActionListener, MouseListener {
         if(source == ui.getAddStringBtn()){
             String phrase = ui.getSearchField().getText();
             if(!(phrase.equals("") || phrase.isEmpty())) {
-                ui.getPhraseList().add(phrase);
+                System.out.println("nie ma listy dla fraz :(( SeekerController l: 62");
+//                ui.getPhraseList().add(phrase);
 //                tf.getPhraseList().add(phrase);
             } else {
                 JOptionPane.showMessageDialog(null, "Please insert a phrase");
@@ -117,22 +114,22 @@ public class SeekerController implements ActionListener, MouseListener {
 
 //  Po przycisnieciu btnSearch uruchamiana jest funkcja.
     public void seek() {
-//        test skasowac
-//        String [] phrases, paths, test = {"a", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b"};
-//        phrases = test; //ui.getList()
-//        paths = test; // ui.getTableModel().getTextFilesPaths()
-
-        ExecutorService executorService = Executors.newFixedThreadPool(100);
-        // for every seeked phrase created are thread for each one file
-
-        int tableSize = ui.getTableModel().getRowCount();
-        int phrasesCount = ui.getPhraseList().size();
-
-        for (int i = 0; i < tableSize; i++) {
-            for (int j = 0; j < phrasesCount; j++) {
-                Runnable threadModel = new ThreadModel(ui.getPhraseList().get(j), ui.getTableModel().getRowPath(i), i + "-" + j);
-                executorService.execute(threadModel);
-            }
-        }
+////        test skasowac
+////        String [] phrases, paths, test = {"a", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b"};
+////        phrases = test; //ui.getList()
+////        paths = test; // ui.getTableModel().getTextFilesPaths()
+//
+//        ExecutorService executorService = Executors.newFixedThreadPool(100);
+//        // for every seeked phrase created are thread for each one file
+//
+//        int tableSize = ui.getTableModel().getRowCount();
+//        int phrasesCount = ui.getPhraseList().size();
+//
+//        for (int i = 0; i < tableSize; i++) {
+//            for (int j = 0; j < phrasesCount; j++) {
+//                Runnable threadModel = new ThreadModel(ui.getPhraseList().get(j), ui.getTableModel().getRowPath(i), i + "-" + j);
+//                executorService.execute(threadModel);
+//            }
+//        }
     }
 }
