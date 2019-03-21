@@ -11,7 +11,7 @@ public class Seeker {
         SwingUtilities.invokeLater(() -> {
             SeekerModel sm = new SeekerModel();
             UserInterface ui = new UserInterface(sm);
-            new SeekerController(ui);
+            new SeekerController(ui, sm);
         });
     }
 }

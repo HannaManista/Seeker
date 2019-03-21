@@ -77,7 +77,7 @@
             <properties>
               <lineWrap value="true"/>
               <text value=""/>
-              <wrapStyleWord value="false"/>
+              <wrapStyleWord value="true"/>
             </properties>
           </component>
         </children>

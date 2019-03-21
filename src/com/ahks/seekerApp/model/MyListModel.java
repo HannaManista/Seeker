@@ -9,6 +9,9 @@ import java.util.List;
  */
 public class MyListModel extends AbstractListModel {
 
+    /**
+     *  List of seeked phrases
+     */
     List<String> strings;
 
     public MyListModel() {

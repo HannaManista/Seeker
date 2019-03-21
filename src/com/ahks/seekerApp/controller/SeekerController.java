@@ -1,6 +1,7 @@
 package com.ahks.seekerApp.controller;
 
 import com.ahks.seekerApp.concurrency.SeekerThread;
+import com.ahks.seekerApp.model.SeekerModel;
 import com.ahks.seekerApp.view.UserInterface;
 import com.ahks.seekerApp.view.FileChooser;
 import com.ahks.seekerApp.model.TextFile;
@@ -10,6 +11,8 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.IOException;
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultHighlighter;
 import javax.swing.text.Highlighter;
@@ -20,22 +23,44 @@ import java.util.concurrent.*;
 /**
  * <code></>SeekerController</code> receives events and invoke appropriate methods
  */
-public class SeekerController implements ActionListener, MouseListener {
+public class SeekerController implements ActionListener, ListSelectionListener {
 
     private UserInterface ui;
     private FileChooser fc;
+    private SeekerModel sm;
 
-    public SeekerController(UserInterface ui) {
+    public SeekerController(UserInterface ui, SeekerModel sm) {
         ui.initializeActionListener(this);
-        ui.initializeMouseListener(this);
+        this.sm = sm;
         this.ui = ui;
     }
-
+    @Override
+    public void valueChanged(ListSelectionEvent event) {
+        int selectedRow = ui.getTable().getSelectedRow();
+        Object source = event.getSource();
+        if (source == ui.getTable()) {
+            printSelectedText();
+            if (ui.getTableModel().getFileArray().get(ui.getTable().getSelectedRow()).getResults() != null) {
+                highlighting();
+            }
+        }
+    }
     @Override
     public void actionPerformed(ActionEvent event) {
         Object source = event.getSource();
 
-//        addFileBtn controller
+        /*
+        Mouse controller
+         */
+
+        if (source == ui.getSearchField()) {
+            ui.getAddStringBtn().setEnabled(true);
+            ui.getSearchBtn().setEnabled(true);
+        }
+
+        /*
+        Buttons controller
+         */
         if (source == ui.getAddFileBtn()) {
             fc = new FileChooser();
             if (fc.getChooser().showOpenDialog(fc) == JFileChooser.APPROVE_OPTION) {
@@ -48,7 +73,7 @@ public class SeekerController implements ActionListener, MouseListener {
 //                    adding file name and file path to table
                     for (int i = 0; i < paths.length; i++)
                         ui.getTableModel().addFileToArray(names[i], paths[i]);
-                    ui.getTextAreaR().setText(new TextFile().readFile(paths[paths.length - 1]));
+                    ui.getTextAreaR().setText(sm.readFile(paths[paths.length - 1]));
                     int ind = ui.getTableModel().getRowCount() - 1;
                     ui.getTable().setRowSelectionInterval(ind, ind);
                 } catch (IOException e) {
@@ -87,45 +112,11 @@ public class SeekerController implements ActionListener, MouseListener {
         }
     }
 
-    public void mouseClicked(MouseEvent event) {
-    }
-
-    @Override
-    public void mousePressed(MouseEvent e) {
-        Object source = e.getSource();
-        if (source == ui.getTable()) {
-            printSelectedText();
-            if (ui.getTableModel().getFileArray().get(ui.getTable().getSelectedRow()).getResults() != null) {
-                highlighting();
-            }
-        }
-        if (source == ui.getSearchField()) {
-            ui.getAddStringBtn().setEnabled(true);
-            ui.getSearchBtn().setEnabled(true);
-        }
-    }
-
-    @Override
-    public void mouseReleased(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseEntered(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseExited(MouseEvent e) {
-
-    }
-
     private void printSelectedText() {
         int row = ui.getTable().getSelectedRow();
         String fullpath = ui.getTableModel().getRowPath(row);
-        TextFile tf = new TextFile();
         try {
-            ui.getTextAreaR().setText(tf.readFile(fullpath));
+            ui.getTextAreaR().setText(sm.readFile(fullpath));
         } catch (IOException e1) {
             e1.printStackTrace();
         }
@@ -161,15 +152,19 @@ public class SeekerController implements ActionListener, MouseListener {
         // for every seeked phrase created are thread for each one file
         int tableSize = ui.getTableModel().getRowCount();
         int phrasesCount = ui.getListModel().getSize();
-//        list for saving lists of results of matching
-//        ArrayList<ArrayList<Future<Integer>>> listOfLists = new ArrayList<>();
+
 //        iterating over each file
         for (int i = 0; i < tableSize; i++) {
-//            listOfLists.add(new ArrayList<>());
 //            iterating over each phrase inserted
             int[] results = new int[phrasesCount];
             for (int j = 0; j < phrasesCount; j++) {
-                Callable threadModel = new SeekerThread(ui.getListModel().getElementAt(j), ui.getTableModel().getRowPath(i), i + "-" + j);
+                String text = null;
+                try {
+                    text = sm.readFile(ui.getTableModel().getRowPath(i)).toLowerCase();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                Callable threadModel = new SeekerThread(ui.getListModel().getElementAt(j), text, i + "-" + j);
                 Future<Integer> element = executorService.submit(threadModel);
                 try {
                     results[j] = element.get();
@@ -188,4 +183,5 @@ public class SeekerController implements ActionListener, MouseListener {
         System.out.println("Executor service shutdown");
 
     }
+
 }

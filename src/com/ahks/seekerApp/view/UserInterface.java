@@ -1,5 +1,6 @@
 package com.ahks.seekerApp.view;
 
+import com.ahks.seekerApp.controller.SeekerController;
 import com.ahks.seekerApp.model.MyListModel;
 import com.ahks.seekerApp.model.SeekerModel;
 import com.ahks.seekerApp.model.MyTableModel;
@@ -8,9 +9,12 @@ import javax.swing.*;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
 
+/**
+ * User interface
+ */
 public class UserInterface extends JPanel{
 
-//    declaration of used components
+    // GUI form components
     private JButton addFileBtn;
     private JTable table;
     private JButton searchBtn;
@@ -22,50 +26,70 @@ public class UserInterface extends JPanel{
     private JTextField threadCountField;
     private JLabel timeLabel;
 
-    //    declaration of used models
+    /**
+     * Seeker model
+     */
     private SeekerModel sm;
+
+    /**
+     * Table model
+     */
     private MyTableModel tableModel;
+
+    /**
+     * List model
+     */
     private MyListModel listModel;
 
+    /**
+     * <code>userInterface</code> constructor
+     * @param sm Seeker model
+     */
     public UserInterface(SeekerModel sm) {
         this.sm = sm;
         initializeView();
     }
 
+    /*
+    Getters
+     */
     public JButton getAddFileBtn() {
         return addFileBtn;
     }
-
     public JButton getSearchBtn() {
         return searchBtn;
     }
-
     public JButton getAddStringBtn() {
         return addStringBtn;
     }
-
     public JTextField getSearchField() {
         return searchField;
     }
-
     public JTextArea getTextAreaR() {
         return textAreaR;
     }
-
     public JTable getTable() {
         return table;
     }
-
     public MyTableModel getTableModel() {
         return tableModel;
     }
+    public JLabel getTimeLabel() {
+        return timeLabel;
+    }
+    public MyListModel getListModel() {
+        return listModel;
+    }
 
+    /**
+     * Check if threads count is numerical. If not, sets 100
+     * @return thread count
+     */
     public int getThreadCountField() {
         if(!threadCountField.getText().isEmpty()){
             char[] ch=threadCountField.getText().toCharArray();
             for(int i = 0 ; i<ch.length; i++){
                 if(!(ch[i]>='0' && ch[i]<='9')){
-                    i=ch.length;
                     this.threadCountField.setText("100");
                     return 100;
                 }
@@ -78,21 +102,15 @@ public class UserInterface extends JPanel{
         }
     }
 
-    public JLabel getTimeLabel() {
-        return timeLabel;
-    }
-
-    public MyListModel getListModel() { return listModel; }
-
-//    initialization of actionListseners and mouseListeners
-    public void initializeActionListener(ActionListener actionListener){
-        addFileBtn.addActionListener(actionListener);
-        addStringBtn.addActionListener(actionListener);
-        searchBtn.addActionListener(actionListener);
-    }
-    public void initializeMouseListener(MouseListener mouseListener){
-        table.addMouseListener(mouseListener);
-        searchField.addMouseListener(mouseListener);
+    /**
+     * Initialization of actionListseners and mouseListeners
+     */
+    public void initializeActionListener(SeekerController listener){
+        addFileBtn.addActionListener(listener);
+        addStringBtn.addActionListener(listener);
+        searchBtn.addActionListener(listener);
+        table.getSelectionModel().addListSelectionListener(listener);
+        searchField.addActionListener(listener);
     }
 
 //    method initializaing the user interface components

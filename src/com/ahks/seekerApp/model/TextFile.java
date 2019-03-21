@@ -1,74 +1,60 @@
 package com.ahks.seekerApp.model;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-
 public class TextFile {
+
+    /**
+     * File name
+     */
     private String fileName;
+
+    /**
+     * File path
+     */
     private String fullPath;
+
+    /**
+     * An array of primitive integer represents found results respectively to seeked phrases in JList
+     */
     private int[] results = null;
 
-
+    /**
+     * TextFile contructor
+     * @param name file name
+     * @param fullPath absolute file path
+     */
     public TextFile(String name, String fullPath) {
         this.fileName = name;
         this.fullPath = fullPath;
     }
 
-    public TextFile() { }
-
-//    method enables reading the contain of the text file
-    public String readFile(String fullPath) throws IOException {
-        BufferedReader reader = new BufferedReader(new FileReader(fullPath));
-        String line;
-        StringBuilder stringBuilder = new StringBuilder();
-        String ls = System.getProperty("line.separator");
-
-        try {
-            while ((line = reader.readLine()) != null) {
-                stringBuilder.append(line);
-                stringBuilder.append(ls);
-            }
-            return stringBuilder.toString();
-        } finally {
-            reader.close();
-        }
-    }
-
-//    method enables searching given phrase in the text
-    public int searchPhrase(String fullPath, String phrase) {
-
-        int phraseCounter = 0;
-        try {
-            String text = this.readFile(fullPath).toLowerCase();
-            if (text != null && !text.isEmpty()) {
-                int p0 = -1;
-                do{
-                    p0 = text.indexOf(phrase, p0+1);
-                    if(p0>-1) {
-                        phraseCounter++;
-                        p0++;
-                    }
-                }while(p0 >= 0 && p0<=text.length());
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return phraseCounter;
-    }
-
+    /**
+     * File name getter
+     * @return file name
+     */
     public String getName() {
         return fileName;
     }
 
+    /**
+     * Absolute path getter
+     * @return absolute path
+     */
     public String getFullPath() {
         return fullPath;
     }
 
+    /**
+     * Results getter
+     * @return results
+     */
     public int[] getResults() {
         return results;
     }
 
+    /**
+     * Results setter
+     * @param results
+     */
     public void setResults(int[] results) {
         this.results = results;
     }
