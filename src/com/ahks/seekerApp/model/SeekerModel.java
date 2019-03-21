@@ -38,14 +38,13 @@ public class SeekerModel {
      *  Method enables reading the contain of the text file
      * @param fullPath Absolute file path
      * @return file text
-     * @throws IOException
+     * @throws IOException input/output exception
      */
     public String readFile(String fullPath) throws IOException {
-        BufferedReader reader = new BufferedReader(new FileReader(fullPath));
-        String line;
-        StringBuilder stringBuilder = new StringBuilder();
-        String ls = System.getProperty("line.separator");
-        try {
+        try (BufferedReader reader = new BufferedReader(new FileReader(fullPath))) {
+            String line;
+            StringBuilder stringBuilder = new StringBuilder();
+            String ls = System.getProperty("line.separator");
             while ((line = reader.readLine()) != null) {
                 // add a line of text
                 stringBuilder.append(line);
@@ -53,8 +52,6 @@ public class SeekerModel {
                 stringBuilder.append(ls);
             }
             return stringBuilder.toString();
-        } finally {
-            reader.close();
         }
     }
 

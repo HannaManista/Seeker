@@ -4,10 +4,7 @@ import com.ahks.seekerApp.controller.SeekerController;
 import com.ahks.seekerApp.model.MyListModel;
 import com.ahks.seekerApp.model.SeekerModel;
 import com.ahks.seekerApp.model.MyTableModel;
-
 import javax.swing.*;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseListener;
 
 /**
  * User interface
@@ -113,13 +110,14 @@ public class UserInterface extends JPanel{
         searchField.addActionListener(listener);
     }
 
-//    method initializaing the user interface components
+    /**
+     * Initializing of user interface components
+     */
     private void initializeView() {
 
         JFrame frame = new JFrame("Your window name");
         frame.setTitle("Thread app");
         frame.setContentPane(panel);
-        System.out.println(frame.getContentPane().getComponentCount());
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);

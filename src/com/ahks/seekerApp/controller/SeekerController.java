@@ -4,11 +4,8 @@ import com.ahks.seekerApp.concurrency.SeekerThread;
 import com.ahks.seekerApp.model.SeekerModel;
 import com.ahks.seekerApp.view.UserInterface;
 import com.ahks.seekerApp.view.FileChooser;
-import com.ahks.seekerApp.model.TextFile;
 
 import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.io.IOException;
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
@@ -26,7 +23,6 @@ import java.util.concurrent.*;
 public class SeekerController implements ActionListener, ListSelectionListener {
 
     private UserInterface ui;
-    private FileChooser fc;
     private SeekerModel sm;
 
     public SeekerController(UserInterface ui, SeekerModel sm) {
@@ -34,13 +30,16 @@ public class SeekerController implements ActionListener, ListSelectionListener {
         this.sm = sm;
         this.ui = ui;
     }
+
+    /*
+    Table controller
+     */
     @Override
     public void valueChanged(ListSelectionEvent event) {
         int selectedRow = ui.getTable().getSelectedRow();
-        Object source = event.getSource();
-        if (source == ui.getTable()) {
+        if (selectedRow > -1) {
             printSelectedText();
-            if (ui.getTableModel().getFileArray().get(ui.getTable().getSelectedRow()).getResults() != null) {
+            if (ui.getTableModel().getFileArray().get(selectedRow).getResults() != null) {
                 highlighting();
             }
         }
@@ -50,19 +49,10 @@ public class SeekerController implements ActionListener, ListSelectionListener {
         Object source = event.getSource();
 
         /*
-        Mouse controller
-         */
-
-        if (source == ui.getSearchField()) {
-            ui.getAddStringBtn().setEnabled(true);
-            ui.getSearchBtn().setEnabled(true);
-        }
-
-        /*
         Buttons controller
          */
         if (source == ui.getAddFileBtn()) {
-            fc = new FileChooser();
+            FileChooser fc = new FileChooser();
             if (fc.getChooser().showOpenDialog(fc) == JFileChooser.APPROVE_OPTION) {
                 fc.getPath();
                 String[] paths = fc.getDirectory();
@@ -83,8 +73,9 @@ public class SeekerController implements ActionListener, ListSelectionListener {
             } else {
                 JOptionPane.showMessageDialog(null, "No selection");
             }
-
             ui.getSearchField().setEnabled(true);
+            ui.getAddStringBtn().setEnabled(true);
+            ui.getSearchBtn().setEnabled(true);
         }
 
 //        Adding phrases to the list
@@ -98,10 +89,10 @@ public class SeekerController implements ActionListener, ListSelectionListener {
             ui.getSearchField().setText("");
         }
 
-//        confirm search
+//        Confirm search
         if (source == ui.getSearchBtn()) {
             long startTime = System.currentTimeMillis();
-//            start threads
+//             Start threads
             seek(ui.getThreadCountField());
             long stopTime = System.currentTimeMillis();
             long elapsedTime = stopTime - startTime;
@@ -112,6 +103,9 @@ public class SeekerController implements ActionListener, ListSelectionListener {
         }
     }
 
+    /**
+     * Printing of selected file in table
+     */
     private void printSelectedText() {
         int row = ui.getTable().getSelectedRow();
         String fullpath = ui.getTableModel().getRowPath(row);
@@ -122,7 +116,9 @@ public class SeekerController implements ActionListener, ListSelectionListener {
         }
     }
 
-    //    function defining searched words highlighting
+    /**
+     * Highlighting of searched phrases
+     */
     private void highlighting() {
         try {
             Highlighter highlighter = ui.getTextAreaR().getHighlighter();
@@ -143,13 +139,16 @@ public class SeekerController implements ActionListener, ListSelectionListener {
         }
     }
 
-    //    searching phrases in files using multiple threads
+    /**
+     * Searching of phrases in files using concurrency
+     * @param nThreads threads count
+     */
     private void seek(int nThreads) {
         System.out.println("Thread pool: " + nThreads);
 //        ExecutorService executorService = Executors.newFixedThreadPool(nThreads);
         ThreadPoolExecutor executorService = (ThreadPoolExecutor) Executors.newCachedThreadPool();
 //        ExecutorService executorService = Executors.newWorkStealingPool(nThreads);
-        // for every seeked phrase created are thread for each one file
+//         for every seeked phrase created are thread for each one file
         int tableSize = ui.getTableModel().getRowCount();
         int phrasesCount = ui.getListModel().getSize();
 
@@ -164,13 +163,11 @@ public class SeekerController implements ActionListener, ListSelectionListener {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                Callable threadModel = new SeekerThread(ui.getListModel().getElementAt(j), text, i + "-" + j);
+                Callable threadModel = new SeekerThread(ui.getListModel().getElementAt(j), text, i + "-" + j, ui.getTableModel().getFileArray().get(j).getName());
                 Future<Integer> element = executorService.submit(threadModel);
                 try {
                     results[j] = element.get();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                } catch (ExecutionException e) {
+                } catch (InterruptedException | ExecutionException e) {
                     e.printStackTrace();
                 }
                 System.out.println(executorService.getPoolSize());
@@ -178,8 +175,7 @@ public class SeekerController implements ActionListener, ListSelectionListener {
             ui.getTableModel().getFileArray().get(i).setResults(results);
         }
         executorService.shutdown();
-        while (!executorService.isTerminated()) {
-        }
+        while (!executorService.isTerminated()) { }
         System.out.println("Executor service shutdown");
 
     }

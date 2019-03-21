@@ -13,7 +13,7 @@
     <children>
       <component id="8bf99" class="javax.swing.JTextField" binding="searchField">
         <constraints>
-          <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="1" indent="0" use-parent-layout="false">
+          <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="1" indent="1" use-parent-layout="false">
             <preferred-size width="338" height="30"/>
           </grid>
         </constraints>
@@ -58,9 +58,7 @@
           <component id="6e085" class="javax.swing.JList" binding="list">
             <constraints/>
             <properties>
-              <model>
-                <item value="s"/>
-              </model>
+              <model/>
             </properties>
           </component>
         </children>
