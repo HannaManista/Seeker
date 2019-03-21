@@ -10,6 +10,7 @@ import java.awt.event.MouseListener;
 
 public class UserInterface extends JPanel{
 
+//    declaration of used components
     private JButton addFileBtn;
     private JTable table;
     private JButton searchBtn;
@@ -19,6 +20,7 @@ public class UserInterface extends JPanel{
     private JTextArea textAreaR;
     private JPanel panel;
 
+//    declaration of used models
     private TableModel tableModel;
     private MyListModel listModel;
 
@@ -56,6 +58,7 @@ public class UserInterface extends JPanel{
 
     public MyListModel getListModel() { return listModel; }
 
+//    initialization of actionListseners and mouseListeners
     public void initializeActionListener(ActionListener actionListener){
         addFileBtn.addActionListener(actionListener);
         addStringBtn.addActionListener(actionListener);
@@ -66,6 +69,7 @@ public class UserInterface extends JPanel{
         searchField.addMouseListener(mouseListener);
     }
 
+//    method initializaing the user interface components
     private void initializeView() {
 
         JFrame frame = new JFrame("Your window name");

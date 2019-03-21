@@ -32,6 +32,7 @@ public class ThreadModel implements Callable<Integer> {
 //        } catch (InterruptedException e) {
 //            e.printStackTrace();
 //        }
+//        caaling a method searching files for inserted phrase
         return tf.searchPhrase(path, phrase);
 
     }
