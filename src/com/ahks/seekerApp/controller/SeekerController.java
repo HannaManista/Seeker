@@ -1,7 +1,6 @@
 package com.ahks.seekerApp.controller;
 
-import com.ahks.seekerApp.model.SeekerModel;
-import com.ahks.seekerApp.model.ThreadModel;
+import com.ahks.seekerApp.concurrency.SeekerThread;
 import com.ahks.seekerApp.view.UserInterface;
 import com.ahks.seekerApp.view.FileChooser;
 import com.ahks.seekerApp.model.TextFile;
@@ -78,10 +77,11 @@ public class SeekerController implements ActionListener, MouseListener {
         if (source == ui.getSearchBtn()) {
             long startTime = System.currentTimeMillis();
 //            start threads
-            seek();
+            seek(ui.getThreadCountField());
             long stopTime = System.currentTimeMillis();
             long elapsedTime = stopTime - startTime;
             System.out.println("TIME: " + elapsedTime);
+            ui.getTimeLabel().setText("TIME: " + elapsedTime);
             highlighting();
             ui.getTableModel().fireTableDataChanged();
         }
@@ -153,8 +153,11 @@ public class SeekerController implements ActionListener, MouseListener {
     }
 
     //    searching phrases in files using multiple threads
-    private void seek() {
-        ExecutorService executorService = Executors.newFixedThreadPool(20);
+    private void seek(int nThreads) {
+        System.out.println("Thread pool: " + nThreads);
+//        ExecutorService executorService = Executors.newFixedThreadPool(nThreads);
+        ThreadPoolExecutor executorService = (ThreadPoolExecutor) Executors.newCachedThreadPool();
+//        ExecutorService executorService = Executors.newWorkStealingPool(nThreads);
         // for every seeked phrase created are thread for each one file
         int tableSize = ui.getTableModel().getRowCount();
         int phrasesCount = ui.getListModel().getSize();
@@ -166,7 +169,7 @@ public class SeekerController implements ActionListener, MouseListener {
 //            iterating over each phrase inserted
             int[] results = new int[phrasesCount];
             for (int j = 0; j < phrasesCount; j++) {
-                Callable threadModel = new ThreadModel(ui.getListModel().getElementAt(j), ui.getTableModel().getRowPath(i), i + "-" + j);
+                Callable threadModel = new SeekerThread(ui.getListModel().getElementAt(j), ui.getTableModel().getRowPath(i), i + "-" + j);
                 Future<Integer> element = executorService.submit(threadModel);
                 try {
                     results[j] = element.get();
@@ -175,6 +178,7 @@ public class SeekerController implements ActionListener, MouseListener {
                 } catch (ExecutionException e) {
                     e.printStackTrace();
                 }
+                System.out.println(executorService.getPoolSize());
             }
             ui.getTableModel().getFileArray().get(i).setResults(results);
         }

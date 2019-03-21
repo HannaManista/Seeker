@@ -10,7 +10,7 @@ import java.util.Arrays;
 
 /**
  * <code>FileChooser</code> set file explorer adapted to text files.
- * 
+ *
  */
 public class FileChooser extends JFrame {
 

@@ -2,7 +2,7 @@ package com.ahks.seekerApp.view;
 
 import com.ahks.seekerApp.model.MyListModel;
 import com.ahks.seekerApp.model.SeekerModel;
-import com.ahks.seekerApp.model.TableModel;
+import com.ahks.seekerApp.model.MyTableModel;
 
 import javax.swing.*;
 import java.awt.event.ActionListener;
@@ -19,12 +19,16 @@ public class UserInterface extends JPanel{
     private JButton addStringBtn;
     private JTextArea textAreaR;
     private JPanel panel;
+    private JTextField threadCountField;
+    private JLabel timeLabel;
 
-//    declaration of used models
-    private TableModel tableModel;
+    //    declaration of used models
+    private SeekerModel sm;
+    private MyTableModel tableModel;
     private MyListModel listModel;
 
-    public UserInterface() {
+    public UserInterface(SeekerModel sm) {
+        this.sm = sm;
         initializeView();
     }
 
@@ -52,8 +56,30 @@ public class UserInterface extends JPanel{
         return table;
     }
 
-    public TableModel getTableModel() {
+    public MyTableModel getTableModel() {
         return tableModel;
+    }
+
+    public int getThreadCountField() {
+        if(!threadCountField.getText().isEmpty()){
+            char[] ch=threadCountField.getText().toCharArray();
+            for(int i = 0 ; i<ch.length; i++){
+                if(!(ch[i]>='0' && ch[i]<='9')){
+                    i=ch.length;
+                    this.threadCountField.setText("100");
+                    return 100;
+                }
+            }
+            int time = Integer.parseInt(threadCountField.getText());
+            return time;
+        }else{
+            this.threadCountField.setText("100");
+            return 100;
+        }
+    }
+
+    public JLabel getTimeLabel() {
+        return timeLabel;
     }
 
     public MyListModel getListModel() { return listModel; }
@@ -80,7 +106,6 @@ public class UserInterface extends JPanel{
         frame.pack();
         frame.setVisible(true);
 
-        SeekerModel sm = new SeekerModel();
         this.tableModel = sm.getTableModel();
         this.listModel = sm.getListModel();
 

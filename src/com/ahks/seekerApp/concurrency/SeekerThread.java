@@ -1,8 +1,14 @@
-package com.ahks.seekerApp.model;
+package com.ahks.seekerApp.concurrency;
+
+import com.ahks.seekerApp.model.TextFile;
 
 import java.util.concurrent.Callable;
 
-public class ThreadModel implements Callable<Integer> {
+/**
+ * <code></>SeekerThread</code> is a class implementing Callable interface. <code>call()</code> method returns
+ * <code>Integer</code>
+ */
+public class SeekerThread implements Callable<Integer> {
 
     private TextFile tf = new TextFile();
     private String phrase;
@@ -13,7 +19,7 @@ public class ThreadModel implements Callable<Integer> {
         return name;
     }
 
-    public ThreadModel(String phrase, String path, String name) {
+    public SeekerThread(String phrase, String path, String name) {
         this.phrase = phrase;
         this.path = path;
         this.name =name;

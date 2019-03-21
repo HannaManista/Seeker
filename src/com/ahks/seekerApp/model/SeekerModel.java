@@ -6,10 +6,10 @@ package com.ahks.seekerApp.model;
  */
 public class SeekerModel {
 
-    private TableModel tableModel = new TableModel();
+    private MyTableModel tableModel = new MyTableModel();
     private MyListModel listModel = new MyListModel();
 
-    public TableModel getTableModel() {
+    public MyTableModel getTableModel() {
         return tableModel;
     }
 

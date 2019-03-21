@@ -4,6 +4,9 @@ import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * <code></>MyListModel</code> represents a list model
+ */
 public class MyListModel extends AbstractListModel {
 
     List<String> strings;

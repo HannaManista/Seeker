@@ -36,18 +36,20 @@ public class TextFile {
     }
 
 //    method enables searching given phrase in the text
-    public Integer searchPhrase(String fullPath, String phrase) {
+    public int searchPhrase(String fullPath, String phrase) {
 
         int phraseCounter = 0;
         try {
             String text = this.readFile(fullPath).toLowerCase();
-            String[] words = text.split("\\s+");
-            if (text != null) {
-                for (int i = 0; i < words.length; i++) {
-                    if (words[i].contains(phrase)) {
+            if (text != null && !text.isEmpty()) {
+                int p0 = -1;
+                do{
+                    p0 = text.indexOf(phrase, p0+1);
+                    if(p0>-1) {
                         phraseCounter++;
+                        p0++;
                     }
-                }
+                }while(p0 >= 0 && p0<=text.length());
             }
         } catch (IOException e) {
             e.printStackTrace();
