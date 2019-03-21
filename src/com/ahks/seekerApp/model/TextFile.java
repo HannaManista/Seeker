@@ -1,45 +1,26 @@
 package com.ahks.seekerApp.model;
 
-import com.ahks.seekerApp.view.FileChooser;
-
-import javax.swing.*;
-import javax.swing.text.BadLocationException;
-import javax.swing.text.DefaultHighlighter;
-import javax.swing.text.Highlighter;
-import java.awt.*;
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.lang.reflect.Array;
-import java.util.*;
 
 public class TextFile {
     private String fileName;
     private String fullPath;
-    private File file;
-    private ArrayList<Integer> results;
+    private int[] results = null;
 
 
-    public TextFile(String name, String fullPath, ArrayList<Integer> results) {
+    public TextFile(String name, String fullPath) {
         this.fileName = name;
         this.fullPath = fullPath;
-        this.results = results;
     }
 
     public TextFile() { }
-//
-//    public String readFilePath(FileChooser fc) {
-//        file = fc.getChooser().getSelectedFile();
-//        fullPath = file.getAbsolutePath();
-//        return fullPath;
-//    }
 
-//
 //    method enables reading the contain of the text file
     public String readFile(String fullPath) throws IOException {
         BufferedReader reader = new BufferedReader(new FileReader(fullPath));
-        String line = null;
+        String line;
         StringBuilder stringBuilder = new StringBuilder();
         String ls = System.getProperty("line.separator");
 
@@ -61,7 +42,6 @@ public class TextFile {
         try {
             String text = this.readFile(fullPath).toLowerCase();
             String[] words = text.split("\\s+");
-            System.out.println("length of the text "+text.length());
             if (text != null) {
                 for (int i = 0; i < words.length; i++) {
                     if (words[i].contains(phrase)) {
@@ -70,7 +50,6 @@ public class TextFile {
                 }
             }
         } catch (IOException e) {
-            System.out.println("Error in calculating matching phrases in text");
             e.printStackTrace();
         }
         return phraseCounter;
@@ -84,12 +63,11 @@ public class TextFile {
         return fullPath;
     }
 
-    public void setFullPath(String fullPath) {
-        this.fullPath = fullPath;
-    }
-
-    public ArrayList<Integer> getResults() {
+    public int[] getResults() {
         return results;
     }
 
+    public void setResults(int[] results) {
+        this.results = results;
+    }
 }

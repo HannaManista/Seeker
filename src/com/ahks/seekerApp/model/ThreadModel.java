@@ -19,21 +19,13 @@ public class ThreadModel implements Callable<Integer> {
         this.name =name;
     }
 
-    public TextFile getTf() {
-        return tf;
-    }
-
     @Override
     public Integer call() {
         Thread.currentThread().setName(this.getName());
-        System.out.println("Thread test: "+this.name);
-//        try {
-//            Thread.sleep(1000);
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
-//        caaling a method searching files for inserted phrase
-        return tf.searchPhrase(path, phrase);
+        System.out.println("Thread '" + this.name + "' test   ->   phrase: " + this.phrase + " | path: " + this.path);
+
+//        calling a method searching files for inserted phrase
+        return this.tf.searchPhrase(this.path, this.phrase);
 
     }
 }

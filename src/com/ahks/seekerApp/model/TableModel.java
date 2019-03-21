@@ -2,23 +2,22 @@ package com.ahks.seekerApp.model;
 
 import javax.swing.table.AbstractTableModel;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class TableModel extends AbstractTableModel {
 
-    private ArrayList<TextFile> fileArray;
-    private ArrayList<ArrayList<Integer>> resultsArray;
+    private List<TextFile> fileArray = new ArrayList<>();
     private String[] columnNames = {"Name","Path","Matched Results"};
 
 
    public TableModel() {
-       fileArray = new ArrayList<TextFile>();
-       resultsArray = new ArrayList<ArrayList<Integer>>();
    }
 
 //   adding file to table model
-    public void addFileToArray(String fileName, String filePath, ArrayList<Integer> results) {
-       fileArray.add(new TextFile(fileName, filePath, results));
-       resultsArray.add(results);
+    public void addFileToArray(String fileName, String filePath) {
+       fileArray.add(new TextFile(fileName, filePath));
+//       resultsArray.add(results);
        fireTableDataChanged();
    }
 
@@ -46,24 +45,20 @@ public class TableModel extends AbstractTableModel {
            case 1:
                return fileArray.get(row).getFullPath();
            case 2:
-               return fileArray.get(row).getResults();
+               if(fileArray.get(row).getResults() == null)
+                   return "";
+               else
+                   return Arrays.toString(fileArray.get(row).getResults());
            default:
                return null;
        }
    }
-    public ArrayList<ArrayList<Integer>> getResultsArray() {
-        return resultsArray;
-    }
 
     public String getRowPath(int row){
        return fileArray.get(row).getFullPath();
    }
 
-//    public String[] getTextFilesPaths () {
-//        int nRow = this.getRowCount();
-//        String[] filePath = new String[nRow];
-//        for (int i = 0 ; i < nRow ; i++)
-//            filePath[i] = (String) this.getValueAt(i,1);
-//        return filePath;
-//    }
+    public List<TextFile> getFileArray() {
+        return fileArray;
+    }
 }

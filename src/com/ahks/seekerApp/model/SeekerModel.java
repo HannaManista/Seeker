@@ -6,14 +6,8 @@ package com.ahks.seekerApp.model;
  */
 public class SeekerModel {
 
-    private TextFile textFile = new TextFile();
     private TableModel tableModel = new TableModel();
     private MyListModel listModel = new MyListModel();
-
-
-    public TextFile getTextFile() {
-        return textFile;
-    }
 
     public TableModel getTableModel() {
         return tableModel;

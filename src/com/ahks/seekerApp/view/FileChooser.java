@@ -1,13 +1,17 @@
 package com.ahks.seekerApp.view;
 
+import org.jetbrains.annotations.NotNull;
+
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.io.File;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Arrays;
 
+/**
+ * <code>FileChooser</code> set file explorer adapted to text files.
+ * 
+ */
 public class FileChooser extends JFrame {
 
     private JFileChooser chooser = new JFileChooser();
@@ -38,8 +42,6 @@ public class FileChooser extends JFrame {
             names[j] = dir.getName();
             j++;
         }
-        System.out.println("getCurrentDirectory(): " + this.chooser.getCurrentDirectory());
-        System.out.println("getSelectedFile() : " + directory);
     }
 
     public JFileChooser getChooser() {
@@ -54,20 +56,20 @@ public class FileChooser extends JFrame {
         return names;
     }
 
-    public static boolean disableCreateNewFolder(Container c) {
+    private static boolean disableCreateNewFolder(@NotNull Container c) {
         Component[] comps = c.getComponents();
         boolean gotIt = false;
-        for (int i = 0; i < comps.length; i++) {
-            if (comps[i] instanceof JButton) {
-                JButton b = (JButton) comps[i];
+        for (Component comp : comps) {
+            if (comp instanceof JButton) {
+                JButton b = (JButton) comp;
                 String ttText = b.getToolTipText();
                 if (ttText != null && ttText.equals("Create New Folder")) {
                     b.setEnabled(false);
                 }
                 gotIt = true;
             }
-            if (comps[i] instanceof Container) {
-                gotIt = disableCreateNewFolder((Container) comps[i]);
+            if (comp instanceof Container) {
+                gotIt = disableCreateNewFolder((Container) comp);
             }
             if (gotIt) {
                 break;
