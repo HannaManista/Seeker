@@ -25,6 +25,7 @@ public class SeekerController implements ActionListener, ListSelectionListener {
     private UserInterface ui;
     private SeekerModel sm;
 
+
     public SeekerController(UserInterface ui, SeekerModel sm) {
         ui.initializeActionListener(this);
         this.sm = sm;
@@ -125,7 +126,7 @@ public class SeekerController implements ActionListener, ListSelectionListener {
             Highlighter.HighlightPainter painter = new DefaultHighlighter.DefaultHighlightPainter(Color.pink);
             String str = ui.getTextAreaR().getText().toLowerCase();
             for (int i = 0; i < ui.getListModel().getSize(); i++) {
-                String phrase = ui.getListModel().getElementAt(i);
+                String phrase = ui.getListModel().getElementAt(i).toLowerCase();
                 int p0 = -1;
                 do {
                     p0 = str.indexOf(phrase, p0 + 1);
@@ -163,7 +164,7 @@ public class SeekerController implements ActionListener, ListSelectionListener {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                Callable threadModel = new SeekerThread(ui.getListModel().getElementAt(j), text, i + "-" + j, ui.getTableModel().getFileArray().get(j).getName());
+                Callable threadModel = new SeekerThread(ui.getListModel().getElementAt(j).toLowerCase(), text, i + "-" + j, ui.getTableModel().getFileArray().get(j).getName());
                 Future<Integer> element = executorService.submit(threadModel);
                 try {
                     results[j] = element.get();

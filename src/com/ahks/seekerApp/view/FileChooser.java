@@ -1,7 +1,5 @@
 package com.ahks.seekerApp.view;
 
-import org.jetbrains.annotations.NotNull;
-
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
@@ -92,7 +90,7 @@ public class FileChooser extends JFrame {
      * @param c chooser
      * @return true if successful
      */
-    private static boolean disableCreateNewFolder(@NotNull Container c) {
+    private static boolean disableCreateNewFolder(Container c) {
         Component[] comps = c.getComponents();
         boolean gotIt = false;
         for (Component comp : comps) {

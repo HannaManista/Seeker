@@ -5,6 +5,7 @@ import com.ahks.seekerApp.model.MyListModel;
 import com.ahks.seekerApp.model.SeekerModel;
 import com.ahks.seekerApp.model.MyTableModel;
 import javax.swing.*;
+import java.awt.*;
 
 /**
  * User interface
@@ -12,6 +13,7 @@ import javax.swing.*;
 public class UserInterface extends JPanel{
 
     // GUI form components
+    private JFrame frame;
     private JButton addFileBtn;
     private JTable table;
     private JButton searchBtn;
@@ -77,13 +79,14 @@ public class UserInterface extends JPanel{
     public MyListModel getListModel() {
         return listModel;
     }
+    public JFrame getFrame() { return this.frame; }
 
     /**
      * Check if threads count is numerical. If not, sets 100
      * @return thread count
      */
     public int getThreadCountField() {
-        if(!threadCountField.getText().isEmpty()){
+        if(!(threadCountField.getText().isEmpty() || threadCountField.getText().equals(""))){
             char[] ch=threadCountField.getText().toCharArray();
             for(int i = 0 ; i<ch.length; i++){
                 if(!(ch[i]>='0' && ch[i]<='9')){
@@ -115,10 +118,18 @@ public class UserInterface extends JPanel{
      */
     private void initializeView() {
 
-        JFrame frame = new JFrame("Your window name");
-        frame.setTitle("Thread app");
+        timeLabel.setSize(70,30);
+//        table.
+
+        this.frame = new JFrame();
+        frame.setTitle("Seeker");
         frame.setContentPane(panel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        int height = screenSize.height;
+        int width = screenSize.width;
+        panel.setPreferredSize(new Dimension(width/2, height/2));
+        frame.setSize(width/2, height/2);
         frame.pack();
         frame.setVisible(true);
 
