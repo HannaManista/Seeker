@@ -164,7 +164,9 @@ public class SeekerController implements ActionListener, ListSelectionListener {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                Callable threadModel = new SeekerThread(ui.getListModel().getElementAt(j).toLowerCase(), text, i + "-" + j, ui.getTableModel().getFileArray().get(j).getName());
+//                System.out.println(ui.getListModel().getSize() + " + " +   ui.getListModel().getElementAt(j));
+//                System.out.println(ui.getTableModel().getFileArray().get(j).getName());
+                Callable threadModel = new SeekerThread(ui.getListModel().getElementAt(j).toLowerCase(), text, i + "-" + j, ui.getTableModel().getFileArray().get(i).getName());
                 Future<Integer> element = executorService.submit(threadModel);
                 try {
                     results[j] = element.get();
