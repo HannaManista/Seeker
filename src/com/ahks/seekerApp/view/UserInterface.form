@@ -67,7 +67,7 @@
           <gridbag weightx="10.0" weighty="1.0"/>
         </constraints>
         <properties/>
-        <border type="none"/>
+        <border type="line" title="Text"/>
         <children>
           <component id="1175e" class="javax.swing.JTextArea" binding="textAreaR">
             <constraints/>

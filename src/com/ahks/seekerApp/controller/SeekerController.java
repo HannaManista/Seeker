@@ -146,8 +146,8 @@ public class SeekerController implements ActionListener, ListSelectionListener {
      */
     private void seek(int nThreads) {
         System.out.println("Thread pool: " + nThreads);
-//        ExecutorService executorService = Executors.newFixedThreadPool(nThreads);
-        ThreadPoolExecutor executorService = (ThreadPoolExecutor) Executors.newCachedThreadPool();
+        ExecutorService executorService = Executors.newFixedThreadPool(nThreads);
+//        ThreadPoolExecutor executorService = (ThreadPoolExecutor) Executors.newCachedThreadPool();
 //        ExecutorService executorService = Executors.newWorkStealingPool(nThreads);
 //         for every seeked phrase created are thread for each one file
         int tableSize = ui.getTableModel().getRowCount();
@@ -173,7 +173,8 @@ public class SeekerController implements ActionListener, ListSelectionListener {
                 } catch (InterruptedException | ExecutionException e) {
                     e.printStackTrace();
                 }
-                System.out.println(executorService.getPoolSize());
+//                Print if newCachedThreadPool is set
+//                System.out.println(executorService.getPoolSize());
             }
             ui.getTableModel().getFileArray().get(i).setResults(results);
         }
