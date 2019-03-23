@@ -1,6 +1,7 @@
 package com.ahks.seekerApp.controller;
 
 import com.ahks.seekerApp.concurrency.SeekerThread;
+import com.ahks.seekerApp.concurrency.SeekerThreadRunnable;
 import com.ahks.seekerApp.model.SeekerModel;
 import com.ahks.seekerApp.view.UserInterface;
 import com.ahks.seekerApp.view.FileChooser;
@@ -98,9 +99,16 @@ public class SeekerController implements ActionListener, ListSelectionListener {
             long stopTime = System.currentTimeMillis();
             long elapsedTime = stopTime - startTime;
             System.out.println("TIME: " + elapsedTime);
-            ui.getTimeLabel().setText("TIME: " + elapsedTime);
+            ui.getTimeLabel().setText("Call: " + elapsedTime);
             highlighting();
             ui.getTableModel().fireTableDataChanged();
+
+            startTime = System.currentTimeMillis();
+//             Start threads
+            seek2(ui.getThreadCountField());
+            stopTime = System.currentTimeMillis();
+            elapsedTime = stopTime - startTime;
+            ui.getTimeLabel2().setText("Run: " + elapsedTime);
         }
     }
 
@@ -173,6 +181,44 @@ public class SeekerController implements ActionListener, ListSelectionListener {
                 } catch (InterruptedException | ExecutionException e) {
                     e.printStackTrace();
                 }
+//                Print if newCachedThreadPool is set
+//                System.out.println(executorService.getPoolSize());
+            }
+            ui.getTableModel().getFileArray().get(i).setResults(results);
+        }
+        executorService.shutdown();
+        while (!executorService.isTerminated()) { }
+        System.out.println("Executor service shutdown");
+
+    }
+    /**
+     * Searching of phrases in files using concurrency
+     * @param nThreads threads count
+     */
+    private void seek2(int nThreads) {
+        System.out.println("Thread pool: " + nThreads);
+        ExecutorService executorService = Executors.newFixedThreadPool(nThreads);
+//        ThreadPoolExecutor executorService = (ThreadPoolExecutor) Executors.newCachedThreadPool();
+//        ExecutorService executorService = Executors.newWorkStealingPool(nThreads);
+//         for every seeked phrase created are thread for each one file
+        int tableSize = ui.getTableModel().getRowCount();
+        int phrasesCount = ui.getListModel().getSize();
+
+//        iterating over each file
+        for (int i = 0; i < tableSize; i++) {
+//            iterating over each phrase inserted
+            int[] results = new int[phrasesCount];
+            for (int j = 0; j < phrasesCount; j++) {
+                String text = null;
+                try {
+                    text = sm.readFile(ui.getTableModel().getRowPath(i)).toLowerCase();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+//                System.out.println(ui.getListModel().getSize() + " + " +   ui.getListModel().getElementAt(j));
+//                System.out.println(ui.getTableModel().getFileArray().get(j).getName());
+                Runnable threadModel = new SeekerThreadRunnable(ui.getListModel().getElementAt(j).toLowerCase(), text, i + "-" + j, ui.getTableModel().getFileArray().get(i).getName());
+                executorService.submit(threadModel);
 //                Print if newCachedThreadPool is set
 //                System.out.println(executorService.getPoolSize());
             }

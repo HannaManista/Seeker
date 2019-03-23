@@ -24,6 +24,7 @@ public class UserInterface extends JPanel{
     private JPanel panel;
     private JTextField threadCountField;
     private JLabel timeLabel;
+    private JLabel timeLabel2;
 
     /**
      * Seeker model
@@ -75,6 +76,9 @@ public class UserInterface extends JPanel{
     }
     public JLabel getTimeLabel() {
         return timeLabel;
+    }
+    public JLabel getTimeLabel2() {
+        return timeLabel2;
     }
     public MyListModel getListModel() {
         return listModel;
