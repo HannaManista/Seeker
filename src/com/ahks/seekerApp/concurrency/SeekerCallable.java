@@ -3,10 +3,10 @@ package com.ahks.seekerApp.concurrency;
 import java.util.concurrent.Callable;
 
 /**
- * <code></>SeekerThread</code> is a class implementing Callable interface. <code>call()</code> method returns
+ * <code></>SeekerCallable</code> is a class implementing Callable interface. <code>call()</code> method returns
  * <code>Integer</code>
  */
-public class SeekerThread implements Callable<Integer> {
+public class SeekerCallable implements Callable<Integer> {
 
     private String phrase;
     private String text;
@@ -17,7 +17,7 @@ public class SeekerThread implements Callable<Integer> {
         return threadName;
     }
 
-    public SeekerThread(String phrase, String text, String threadName, String fileName) {
+    public SeekerCallable(String phrase, String text, String threadName, String fileName) {
         this.phrase = phrase;
         this.text = text;
         this.threadName = threadName;

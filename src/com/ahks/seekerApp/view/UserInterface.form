@@ -2,7 +2,7 @@
 <form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="com.ahks.seekerApp.view.UserInterface">
   <grid id="27dc6" binding="panel" layout-manager="GridBagLayout">
     <constraints>
-      <xy x="39" y="21" width="520" height="366"/>
+      <xy x="39" y="21" width="736" height="366"/>
     </constraints>
     <properties>
       <maximumSize width="-1" height="-1"/>
@@ -14,7 +14,7 @@
     <children>
       <component id="8bf99" class="javax.swing.JTextField" binding="searchField">
         <constraints>
-          <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="1" indent="1" use-parent-layout="false"/>
+          <grid row="2" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="0" anchor="8" fill="1" indent="1" use-parent-layout="false"/>
           <gridbag weightx="1.0" weighty="1.0"/>
         </constraints>
         <properties>
@@ -23,7 +23,7 @@
       </component>
       <component id="4a432" class="javax.swing.JButton" binding="searchBtn">
         <constraints>
-          <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+          <grid row="6" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
           <gridbag weightx="1.0" weighty="1.0"/>
         </constraints>
         <properties>
@@ -32,7 +32,7 @@
       </component>
       <scrollpane id="544a9">
         <constraints>
-          <grid row="1" column="0" row-span="1" col-span="4" vsize-policy="0" hsize-policy="0" anchor="0" fill="3" indent="1" use-parent-layout="false"/>
+          <grid row="1" column="0" row-span="1" col-span="5" vsize-policy="0" hsize-policy="0" anchor="0" fill="3" indent="1" use-parent-layout="false"/>
           <gridbag weightx="1.0" weighty="50.0"/>
         </constraints>
         <properties/>
@@ -46,7 +46,7 @@
       </scrollpane>
       <scrollpane id="13bd6">
         <constraints>
-          <grid row="3" column="0" row-span="1" col-span="4" vsize-policy="7" hsize-policy="0" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+          <grid row="3" column="0" row-span="1" col-span="5" vsize-policy="7" hsize-policy="0" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
           <gridbag weightx="1.0" weighty="50.0" ipadx="1" ipady="1"/>
         </constraints>
         <properties/>
@@ -63,7 +63,7 @@
       </scrollpane>
       <scrollpane id="992bb">
         <constraints>
-          <grid row="1" column="4" row-span="4" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+          <grid row="1" column="5" row-span="6" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
           <gridbag weightx="10.0" weighty="1.0"/>
         </constraints>
         <properties/>
@@ -83,7 +83,7 @@
       </scrollpane>
       <component id="4329a" class="javax.swing.JButton" binding="addStringBtn">
         <constraints>
-          <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+          <grid row="2" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
           <gridbag weightx="1.0" weighty="1.0"/>
         </constraints>
         <properties>
@@ -101,7 +101,7 @@
       </component>
       <component id="c5d80" class="javax.swing.JTextField" binding="threadCountField">
         <constraints>
-          <grid row="4" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="1" indent="0" use-parent-layout="false">
+          <grid row="6" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="1" indent="0" use-parent-layout="false">
             <minimum-size width="50" height="-1"/>
             <preferred-size width="50" height="-1"/>
             <maximum-size width="50" height="-1"/>
@@ -110,13 +110,57 @@
         </constraints>
         <properties>
           <autoscrolls value="false"/>
-          <text value=""/>
+          <text value="-"/>
           <toolTipText value="Set thread pool. Default: 100"/>
         </properties>
       </component>
-      <component id="c40de" class="javax.swing.JLabel" binding="timeLabel">
+      <hspacer id="bb7b">
         <constraints>
-          <grid row="4" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false">
+          <grid row="0" column="1" row-span="1" col-span="5" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+          <gridbag weightx="0.0" weighty="0.0"/>
+        </constraints>
+      </hspacer>
+      <component id="46873" class="javax.swing.JLabel">
+        <constraints>
+          <grid row="6" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+          <gridbag weightx="0.0" weighty="0.0"/>
+        </constraints>
+        <properties>
+          <text value=" newFixedThreadPool"/>
+        </properties>
+      </component>
+      <component id="a8ef0" class="javax.swing.JLabel">
+        <constraints>
+          <grid row="5" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+          <gridbag weightx="0.0" weighty="0.0"/>
+        </constraints>
+        <properties>
+          <text value=" newCachedThreadPool"/>
+        </properties>
+      </component>
+      <component id="4b113" class="javax.swing.JLabel" binding="cachedThreadsLabel">
+        <constraints>
+          <grid row="5" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+          <gridbag weightx="0.0" weighty="0.0"/>
+        </constraints>
+        <properties>
+          <horizontalTextPosition value="0"/>
+          <text value="(max) - | -"/>
+          <toolTipText value="maximum count of created threads"/>
+        </properties>
+      </component>
+      <component id="24279" class="javax.swing.JLabel">
+        <constraints>
+          <grid row="4" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+          <gridbag weightx="0.0" weighty="0.0"/>
+        </constraints>
+        <properties>
+          <text value="Thread count:"/>
+        </properties>
+      </component>
+      <component id="c40de" class="javax.swing.JLabel" binding="callLabel">
+        <constraints>
+          <grid row="4" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false">
             <minimum-size width="70" height="-1"/>
             <preferred-size width="70" height="-1"/>
             <maximum-size width="70" height="-1"/>
@@ -127,23 +171,55 @@
           <horizontalAlignment value="2"/>
           <horizontalTextPosition value="2"/>
           <inheritsPopupMenu value="true"/>
-          <text value="Call: -"/>
+          <text value="Callable [ms]"/>
           <verifyInputWhenFocusTarget value="true"/>
         </properties>
       </component>
-      <hspacer id="bb7b">
+      <component id="59542" class="javax.swing.JLabel" binding="runLabel">
         <constraints>
-          <grid row="0" column="1" row-span="1" col-span="4" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-          <gridbag weightx="0.0" weighty="0.0"/>
-        </constraints>
-      </hspacer>
-      <component id="59542" class="javax.swing.JLabel" binding="timeLabel2">
-        <constraints>
-          <grid row="4" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+          <grid row="4" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
           <gridbag weightx="1.0" weighty="1.0"/>
         </constraints>
         <properties>
-          <text value="Run: -"/>
+          <horizontalAlignment value="2"/>
+          <horizontalTextPosition value="2"/>
+          <text value="Runnable [ms]"/>
+        </properties>
+      </component>
+      <component id="12d41" class="javax.swing.JLabel" binding="cachedCallLabel">
+        <constraints>
+          <grid row="5" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+          <gridbag weightx="0.0" weighty="0.0"/>
+        </constraints>
+        <properties>
+          <text value="-"/>
+        </properties>
+      </component>
+      <component id="bc140" class="javax.swing.JLabel" binding="fixedCallLabel">
+        <constraints>
+          <grid row="6" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+          <gridbag weightx="0.0" weighty="0.0"/>
+        </constraints>
+        <properties>
+          <text value="-"/>
+        </properties>
+      </component>
+      <component id="ae5ae" class="javax.swing.JLabel" binding="cachedRunLabel">
+        <constraints>
+          <grid row="5" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+          <gridbag weightx="0.0" weighty="0.0"/>
+        </constraints>
+        <properties>
+          <text value="-"/>
+        </properties>
+      </component>
+      <component id="8336a" class="javax.swing.JLabel" binding="fixedRunLabel">
+        <constraints>
+          <grid row="6" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+          <gridbag weightx="0.0" weighty="0.0"/>
+        </constraints>
+        <properties>
+          <text value="-"/>
         </properties>
       </component>
     </children>

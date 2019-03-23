@@ -23,8 +23,13 @@ public class UserInterface extends JPanel{
     private JTextArea textAreaR;
     private JPanel panel;
     private JTextField threadCountField;
-    private JLabel timeLabel;
-    private JLabel timeLabel2;
+    private JLabel callLabel;
+    private JLabel runLabel;
+    private JLabel cachedCallLabel;
+    private JLabel cachedRunLabel;
+    private JLabel fixedCallLabel;
+    private JLabel fixedRunLabel;
+    private JLabel cachedThreadsLabel;
 
     /**
      * Seeker model
@@ -74,16 +79,25 @@ public class UserInterface extends JPanel{
     public MyTableModel getTableModel() {
         return tableModel;
     }
-    public JLabel getTimeLabel() {
-        return timeLabel;
-    }
-    public JLabel getTimeLabel2() {
-        return timeLabel2;
-    }
     public MyListModel getListModel() {
         return listModel;
     }
-    public JFrame getFrame() { return this.frame; }
+    public JLabel getCachedCallLabel() {
+        return cachedCallLabel;
+    }
+    public JLabel getCachedRunLabel() {
+        return cachedRunLabel;
+    }
+    public JLabel getFixedCallLabel() {
+        return fixedCallLabel;
+    }
+    public JLabel getFixedRunLabel() {
+        return fixedRunLabel;
+    }
+
+    public JLabel getCachedThreadsLabel() {
+        return cachedThreadsLabel;
+    }
 
     /**
      * Check if threads count is numerical. If not, sets 100
@@ -122,7 +136,7 @@ public class UserInterface extends JPanel{
      */
     private void initializeView() {
 
-        timeLabel.setSize(70,30);
+        callLabel.setSize(70,30);
 //        table.
 
         this.frame = new JFrame();
